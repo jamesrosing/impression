@@ -1,0 +1,154 @@
+/**
+ * Design System Variables
+ * Source: https://duchateau.com/
+ * Extracted: 2026-01-05T18:14:35.518Z
+ * Character: Luxury/editorial aesthetic with high contrast black/white palette, warm cream secondary, and pink accents. Typography-forward with dramatic scale. Minimal border-radius for sharp, architectural feel. WordPress/Elementor with Shopify integration.
+ */
+
+:root {
+  /* ========== Colors ========== */
+
+  /* Palette */
+  --color-primary: #000000;
+  --color-secondary-text: #333333;
+  --color-background: #ffffff;
+  --color-accent: #cc3366;
+  --color-warm-background: #fbf9f4;
+  --color-near-black: #121212;
+  --color-palette-7: #212121;
+  --color-palette-8: #dddddd;
+  --color-palette-9: #313131;
+  --color-link-blue: #1863dc;
+  --color-palette-11: #f0efe9;
+  --color-palette-12: #cfcfcf;
+
+  /* Semantic - Backgrounds */
+  --color-bg: #ffffff;
+  --color-bg-2: #fbf9f4;
+  --color-bg-3: #000000;
+  --color-bg-4: #f0efe9;
+
+  /* Semantic - Text */
+  --color-text: #000000;
+  --color-text-secondary: #333333;
+  --color-text-muted: #ffffff;
+  --color-text-subtle: #cc3366;
+
+  /* Semantic - Borders */
+  --color-border: #000000;
+  --color-border-2: #333333;
+  --color-border-3: #ffffff;
+
+  /* Semantic - Accents */
+  --color-accent: #fbf9f4;
+  --color-accent-2: #cfcfcf;
+
+  /* ========== Typography ========== */
+
+  /* Font Families */
+  --font-serif: "beaufort-pro", system-ui, sans-serif;
+  --font-display: "ABC Social Condensed Bold", system-ui, sans-serif;
+  --font-ui: "Suisse Intl Regular", system-ui, sans-serif;
+
+  /* Font Sizes */
+  --font-size-xs: 12px;
+  --font-size-sm: 13px;
+  --font-size-base: 14px;
+  --font-size-lg: 16px;
+  --font-size-xl: 18px;
+  --font-size-2xl: 20px;
+  --font-size-3xl: 24px;
+  --font-size-4xl: 26px;
+  --font-size-5xl: 30px;
+  --font-size-6xl: 32px;
+  --font-size-7xl: 36px;
+  --font-size-8xl: 40px;
+  --font-size-9xl: 80px;
+  --font-size-10: 138.16px;
+  --font-size-11: 152px;
+
+  /* Font Weights */
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* Line Heights */
+  --line-height-tight: 24px;
+  --line-height-snug: 15.4px;
+  --line-height-normal: 18.4px;
+  --line-height-relaxed: 36px;
+
+  /* Letter Spacing */
+  --letter-spacing-tighter: -3.2px;
+  --letter-spacing-tight: -1.6px;
+  --letter-spacing-normal: -1.056px;
+
+  /* ========== Spacing ========== */
+
+  --spacing-1: 5px;
+  --spacing-2: 8px;
+  --spacing-3: 10px;
+  --spacing-4: 16px;
+  --spacing-5: 20px;
+  --spacing-6: 24px;
+  --spacing-7: 32px;
+  --spacing-8: 48px;
+  --spacing-9: 56px;
+  --spacing-10: 72px;
+  --spacing-11: 80px;
+  --spacing-12: 96px;
+  --spacing-13: 128px;
+  --spacing-14: 160px;
+
+  /* Spacing Shortcuts */
+  --spacing-xs: 5px;
+  --spacing-sm: 8px;
+  --spacing-md: 10px;
+  --spacing-lg: 16px;
+  --spacing-xl: 20px;
+  --spacing-2xl: 24px;
+
+  /* ========== Border Radius ========== */
+
+  --radius-default: 3px;
+  --radius-buttons: 2px;
+  --radius-cards: 6px;
+  --radius-full: 50px;
+
+  /* ========== Shadows ========== */
+
+  --shadow-subtle-elevation: rgba(0, 0, 0, 0.5) 0px 8px 13px -8px;
+  --shadow-top-glow: rgba(172, 171, 171, 0.3) 0px -1px 10px 0px;
+  --shadow-modal-shadow: rgba(0, 0, 0, 0.3) 0px 32px 68px 0px;
+  --shadow-side-shadow: rgba(0, 0, 0, 0.1) -17px 0px 35px 0px;
+
+  /* ========== Transitions ========== */
+
+  /* Durations */
+  --duration-fast: 0.1s;
+  --duration-normal: 0.2s;
+  --duration-DEFAULT: 0.3s;
+  --duration-slow: 0.4s;
+  --duration-slower: 0.5s;
+
+  /* Easings */
+  --ease-DEFAULT: ease;
+  --ease-in: ease-in-out;
+  --ease-out: cubic-bezier(0, 0.33, 0.07, 1.03);
+
+  /* ========== Breakpoints (reference) ========== */
+
+  --breakpoint-sm: 576px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1200px;
+  --breakpoint-2xl: 1440px;
+  --breakpoint-bp-6: 1600px;
+
+  /* Container Widths */
+  --container-sm: 314px;
+  --container-md: 800px;
+  --container-lg: 1200px;
+
+}

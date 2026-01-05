@@ -72,68 +72,188 @@ Create a feature branch to align my project with the Stripe dashboard design
 
 ## Workflow 2: Compare Project Against Style Guide
 
+### Quick Start
+
+```bash
+node scripts/compare-design-systems.js /path/to/project examples/extracted/duchateau.json
+node scripts/compare-design-systems.js /path/to/project examples/extracted/duchateau.json comparison-report.md
+```
+
 ### Process
 
-1. Load target style guide:
-   - Use pre-extracted from `examples/extracted/` OR
-   - Extract fresh using Workflow 1
+The comparison script automatically:
 
-2. Scan project for styling approach:
-   ```bash
-   # Detect styling method
-   ls -la tailwind.config.* 2>/dev/null    # Tailwind
-   find . -name "*.css" -type f            # Plain CSS
-   grep -r "styled-components" package.json # CSS-in-JS
-   ```
+1. **Detects project type** (Tailwind, CSS variables, CSS-in-JS)
+2. **Extracts current styles** from config files
+3. **Runs diff algorithms** for each category
+4. **Generates markdown report** with scores and recommendations
 
-3. Parse project styles:
-   - **Tailwind**: Extract theme from `tailwind.config.*`
-   - **CSS**: Parse custom properties from `:root`
-   - **CSS-in-JS**: Scan for theme objects
+### Comparison Algorithms
 
-4. Run comparison algorithm:
-   - Colors: Exact match, similar (ΔE < 5), missing
-   - Typography: Font family, scale alignment
-   - Spacing: Grid system compliance
-   - Animations: Timing patterns
+| Category | Algorithm | Match Criteria |
+|----------|-----------|----------------|
+| Colors | CIE ΔE 2000 | Exact: ΔE = 0, Similar: ΔE < 5, Different: ΔE ≥ 5 |
+| Typography | Fuzzy string match | Font family name contains/contained by reference |
+| Spacing | Numeric diff | Exact: 0px diff, Close: ≤2px diff |
+| Border Radius | Exact match | Pixel value equality |
 
-5. Generate diff report using `templates/comparison-report.template.md`
+### Output Report Structure
 
-### Comparison Categories
+```markdown
+# Design System Comparison Report
 
-| Category | Match Types | Threshold |
-|----------|-------------|-----------|
-| Colors | Exact, Similar, Missing | ΔE < 5 for similar |
-| Fonts | Family, Weight, Scale | Family match required |
-| Spacing | Grid alignment | Within 2px |
-| Animations | Duration, Easing | Exact match |
+## Overall Alignment Score: 72%
+
+| Category | Score | Status |
+|----------|-------|--------|
+| Colors | 85% | ✅ |
+| Typography | 50% | ⚠️ |
+| Spacing | 70% | ⚠️ |
+| Border Radius | 100% | ✅ |
+
+## Colors (85%)
+### ✅ Exact Matches (8)
+### ⚠️ Similar Colors (3)
+### ❌ Missing from Project (2)
+
+## Recommendations
+1. **Install missing fonts** - Add: beaufort-pro, ABC Social Condensed
+2. **Align spacing scale** - Consider adopting: 5px, 8px, 10px
+```
+
+### Programmatic Usage
+
+```javascript
+const { compareDesignSystems } = require('./scripts/compare-design-systems');
+
+const { projectType, comparisons, report } = compareDesignSystems(
+  '/path/to/project',
+  'examples/extracted/duchateau.json'
+);
+
+console.log(`Project type: ${projectType}`);
+console.log(`Color alignment: ${comparisons.colors.score}%`);
+```
 
 ## Workflow 3: Implement Design Changes
 
+### Quick Start
+
+```bash
+# Preview what would change
+node scripts/implement-design-changes.js /path/to/project examples/extracted/duchateau.json --dry-run
+
+# Execute (creates branch and generates plan)
+node scripts/implement-design-changes.js /path/to/project examples/extracted/duchateau.json
+```
+
 ### Process
 
-1. Generate implementation plan from comparison diff
+The implementation script:
 
-2. Create feature branch:
-   ```bash
-   git checkout -b feature/design-system-alignment
-   ```
+1. **Runs comparison** to identify gaps
+2. **Detects config files** (tailwind.config.js or CSS variables file)
+3. **Generates prioritized tokens** for each category
+4. **Creates feature branch** `feature/design-system-alignment`
+5. **Outputs implementation plan** with exact tokens to add
 
-3. Execute changes by priority:
-   - **P0**: Design tokens (CSS vars / Tailwind theme)
-   - **P1**: Typography (fonts, scale, weights)
-   - **P2**: Color palette
-   - **P3**: Spacing adjustments
-   - **P4**: Animation refinements
-   - **P5**: Component-specific updates
+### Priority Order
 
-4. Commit atomically per category:
-   ```bash
-   git commit -m "design: update color palette to match target system"
-   git commit -m "design: align typography scale with reference"
-   ```
+| Priority | Category | Description |
+|----------|----------|-------------|
+| P0 | Colors | Design tokens foundation (backgrounds, text, borders, accents) |
+| P1 | Typography | Font families, size scale, weights |
+| P2 | Spacing | Spacing scale values |
+| P3 | Border Radius | Corner radius tokens |
+| P4 | Animations | Durations and easing functions |
 
-5. Generate PR description with before/after screenshots
+### Output: DESIGN_IMPLEMENTATION_PLAN.md
+
+```markdown
+# Implementation Plan
+
+**Branch:** `feature/design-system-alignment`
+**Commits:** 5
+
+## Execution Order
+
+### P0: colors
+**Commit:** `design: add color tokens from reference system`
+**File:** `tailwind.config.js`
+**Tokens:**
+```
+colors: {
+  'primary': '#000000',
+  'background': '#ffffff',
+  'accent': '#cc3366'
+}
+```
+
+## Git Commands
+```bash
+git checkout -b feature/design-system-alignment
+# Edit tailwind.config.js with tokens above
+git add tailwind.config.js
+git commit -m "design: add color tokens from reference system"
+```
+```
+
+### Atomic Commits
+
+Each category gets its own commit for clean history:
+
+```bash
+git log --oneline
+# a1b2c3d design: add animation/transition tokens
+# d4e5f6g design: align border radius tokens  
+# g7h8i9j design: update spacing scale
+# j1k2l3m design: align typography with reference system
+# m4n5o6p design: add color tokens from reference system
+```
+
+### Programmatic Usage
+
+```javascript
+const { generateImplementationPlan, executePlan } = require('./scripts/implement-design-changes');
+const { compareDesignSystems } = require('./scripts/compare-design-systems');
+
+const { comparisons } = compareDesignSystems(projectPath, referencePath);
+const reference = JSON.parse(fs.readFileSync(referencePath));
+const configs = { tailwind: 'tailwind.config.js' };
+
+const plan = generateImplementationPlan(projectPath, reference, comparisons, configs);
+const results = executePlan(projectPath, plan, true); // dry-run
+```
+
+## Workflow 4: Generate Implementation Files
+
+After extracting a design system, generate ready-to-use config files:
+
+```bash
+# Extract from live site
+# (use Playwright extraction workflow)
+
+# Generate Tailwind config
+node scripts/generate-tailwind-config.js site-design.json tailwind.config.js
+
+# Generate CSS variables
+node scripts/generate-css-variables.js site-design.json src/styles/variables.css
+
+# Or use pre-extracted reference
+node scripts/generate-tailwind-config.js examples/extracted/duchateau.json
+```
+
+For Claude to execute in a project:
+
+```
+Generate a Tailwind config from the DuChateau design system and apply it to my project
+```
+
+Claude will:
+1. Read `examples/extracted/duchateau.json`
+2. Run `generate-tailwind-config.js` 
+3. Merge with existing `tailwind.config.js` or create new
+4. Update any conflicting theme values
 
 ## Pre-Extracted References
 
@@ -141,53 +261,10 @@ Skip live extraction for commonly referenced designs:
 
 | Design System | File | Notes |
 |--------------|------|-------|
-| Linear | `examples/extracted/linear.json` | Clean, minimal SaaS |
-| Stripe Dashboard | `examples/extracted/stripe-dashboard.json` | Data-dense, professional |
-| Vercel | `examples/extracted/vercel.json` | Developer-focused |
-| Notion | `examples/extracted/notion.json` | Content-focused |
-
-## Generating Output Files
-
-### Tailwind Config
-
-Transform extracted JSON to Tailwind config:
-
-```javascript
-// From extracted colors
-theme: {
-  colors: {
-    primary: extractedColors.semantic.accents[0]?.value,
-    background: extractedColors.semantic.backgrounds[0]?.value,
-    foreground: extractedColors.semantic.text[0]?.value,
-    // ... map remaining
-  },
-  fontFamily: {
-    sans: extractedTypography.fontFamilies.map(f => f.family),
-  },
-  spacing: {
-    // Map from extracted spacing scale
-  }
-}
-```
-
-### CSS Variables
-
-Transform to CSS custom properties:
-
-```css
-:root {
-  /* Colors */
-  --color-primary: #extracted-value;
-  --color-background: #extracted-value;
-  
-  /* Typography */
-  --font-sans: "Extracted Font", system-ui;
-  --font-size-sm: extracted-scale[0];
-  
-  /* Spacing */
-  --spacing-unit: extracted-grid;
-}
-```
+| DuChateau | `examples/extracted/duchateau.json` | Luxury/editorial aesthetic |
+| Linear | `examples/extracted/linear.json` | Clean, minimal SaaS (TODO) |
+| Stripe Dashboard | `examples/extracted/stripe-dashboard.json` | Data-dense, professional (TODO) |
+| Vercel | `examples/extracted/vercel.json` | Developer-focused (TODO) |
 
 ## Limitations
 
@@ -217,6 +294,112 @@ Injects into page context and returns comprehensive design tokens:
 - Icons (library detection, sizes)
 - Breakpoints (media queries, container widths)
 - Shadows and border-radius patterns
+
+### compare-design-systems.js
+
+Location: `scripts/compare-design-systems.js`
+
+Compares project styles against a reference design system JSON.
+
+**CLI Usage:**
+```bash
+node scripts/compare-design-systems.js <project-path> <reference.json> [output.md]
+```
+
+**Features:**
+- Auto-detects project type (Tailwind, CSS, CSS-in-JS)
+- Extracts colors, fonts, spacing, border-radius from project
+- CIE ΔE color comparison (perceptually accurate)
+- Generates markdown report with scores per category
+- Provides actionable recommendations
+
+**Exports:**
+- `compareDesignSystems(projectPath, referencePath)` → `{ projectType, comparisons, report }`
+- `deltaE(hex1, hex2)` → number (color difference)
+- `normalizeColor(color)` → hex string
+
+### implement-design-changes.js
+
+Location: `scripts/implement-design-changes.js`
+
+Generates implementation plan with prioritized tokens for each category.
+
+**CLI Usage:**
+```bash
+node scripts/implement-design-changes.js <project-path> <reference.json> [--dry-run]
+```
+
+**Features:**
+- Creates `feature/design-system-alignment` branch
+- Generates tokens in correct format (Tailwind or CSS vars)
+- Prioritizes changes (P0: colors → P4: animations)
+- Outputs `DESIGN_IMPLEMENTATION_PLAN.md` with exact tokens and git commands
+
+**Exports:**
+- `generateImplementationPlan(projectPath, reference, comparisons, configs)` → plan object
+- `executePlan(projectPath, plan, dryRun)` → results array
+
+### generate-tailwind-config.js
+
+Location: `scripts/generate-tailwind-config.js`
+
+Transforms extracted JSON into a production-ready Tailwind config.
+
+**CLI Usage:**
+```bash
+node scripts/generate-tailwind-config.js examples/extracted/duchateau.json
+node scripts/generate-tailwind-config.js examples/extracted/duchateau.json tailwind.config.js
+```
+
+**Programmatic Usage:**
+```javascript
+const { generateTailwindConfig } = require('./scripts/generate-tailwind-config');
+const designSystem = JSON.parse(fs.readFileSync('duchateau.json'));
+const config = generateTailwindConfig(designSystem);
+fs.writeFileSync('tailwind.config.js', config);
+```
+
+**Generates:**
+- `colors` - Semantic color tokens (background, foreground, border, accent)
+- `fontFamily` - Font stacks organized by role (sans, serif, display, mono)
+- `fontSize` - Type scale with calculated line-heights
+- `fontWeight` - Available weights with semantic names
+- `spacing` - Full spacing scale
+- `borderRadius` - Radius tokens with semantic names
+- `boxShadow` - Shadow definitions
+- `screens` - Responsive breakpoints
+- `transitionDuration` - Animation durations
+- `transitionTimingFunction` - Easing curves
+
+### generate-css-variables.js
+
+Location: `scripts/generate-css-variables.js`
+
+Transforms extracted JSON into CSS custom properties.
+
+**CLI Usage:**
+```bash
+node scripts/generate-css-variables.js examples/extracted/duchateau.json
+node scripts/generate-css-variables.js examples/extracted/duchateau.json variables.css
+```
+
+**Programmatic Usage:**
+```javascript
+const { generateCSSVariables } = require('./scripts/generate-css-variables');
+const designSystem = JSON.parse(fs.readFileSync('duchateau.json'));
+const css = generateCSSVariables(designSystem);
+fs.writeFileSync('variables.css', css);
+```
+
+**Generates organized sections:**
+- Colors (palette, semantic backgrounds/text/borders/accents)
+- Typography (families, sizes, weights, line-heights, letter-spacing)
+- Spacing (full scale + shortcuts: xs, sm, md, lg, xl)
+- Border radius
+- Shadows
+- Transitions (durations, easings)
+- Breakpoints (reference values)
+- Container widths
 
 ### Usage via Playwright
 

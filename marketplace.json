@@ -1,7 +1,7 @@
 {
   "name": "design-system-extractor",
-  "version": "1.0.0",
-  "description": "Extract complete design systems from live websites using Playwright. Generates structured style guides, enables comparison workflows, and outputs to JSON/Tailwind/CSS variables.",
+  "version": "1.2.0",
+  "description": "Extract complete design systems from live websites. Compare projects against references with ΔE color matching. Generate Tailwind configs, CSS variables, and implementation plans.",
   "author": "jamesrosing",
   "license": "MIT",
   "keywords": [
