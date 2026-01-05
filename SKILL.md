@@ -211,6 +211,20 @@ git log --oneline
 # m4n5o6p design: add color tokens from reference system
 ```
 
+### Programmatic Usage
+
+```javascript
+const { generateImplementationPlan, executePlan } = require('./scripts/implement-design-changes');
+const { compareDesignSystems } = require('./scripts/compare-design-systems');
+
+const { comparisons } = compareDesignSystems(projectPath, referencePath);
+const reference = JSON.parse(fs.readFileSync(referencePath));
+const configs = { tailwind: 'tailwind.config.js' };
+
+const plan = generateImplementationPlan(projectPath, reference, comparisons, configs);
+const results = executePlan(projectPath, plan, true); // dry-run
+```
+
 ## Workflow 4: Generate Implementation Files
 
 After extracting a design system, generate ready-to-use config files:
