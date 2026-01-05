@@ -1,11 +1,25 @@
 ---
-name: design-system-extractor
-description: Extract complete design systems from live URLs, compare against existing projects, and generate implementation plans. Use when needing to (1) scrape design tokens from reference websites, (2) analyze how an existing project differs from a target design system, (3) generate style guides as JSON/Tailwind/CSS variables, (4) create feature branches with design alignment changes, or (5) reverse-engineer the styling of any website.
+name: impression
+description: Extract design systems from live websites, compare against existing projects, and generate implementation plans. Scrapes colors, typography, spacing, animations, and component patterns from any URL.
 ---
 
-# Design System Extractor
+# Impression
 
 Extract, compare, and implement design systems from any website.
+
+## Triggers
+
+Activate this skill when the user mentions:
+
+**Direct:** "impression skill", "use impression"
+
+**Extraction:** "scrape styles", "extract design", "grab the CSS", "get the design system", "reverse-engineer the styling", "pull the theme from", "what fonts/colors does [site] use", "analyze the design of"
+
+**Comparison:** "compare my styles", "how close is my design to", "match [reference] design", "align with [brand] styling", "design system diff", "how different is my project from"
+
+**Generation:** "generate tailwind config", "create CSS variables", "convert to tailwind", "implementation plan for design", "apply [site] design to my project"
+
+**References:** "Linear design", "Vercel design", "DuChateau design" (pre-extracted systems available)
 
 ## Quick Start
 
@@ -121,20 +135,6 @@ The comparison script automatically:
 2. **Align spacing scale** - Consider adopting: 5px, 8px, 10px
 ```
 
-### Programmatic Usage
-
-```javascript
-const { compareDesignSystems } = require('./scripts/compare-design-systems');
-
-const { projectType, comparisons, report } = compareDesignSystems(
-  '/path/to/project',
-  'examples/extracted/duchateau.json'
-);
-
-console.log(`Project type: ${projectType}`);
-console.log(`Color alignment: ${comparisons.colors.score}%`);
-```
-
 ## Workflow 3: Implement Design Changes
 
 ### Quick Start
@@ -211,20 +211,6 @@ git log --oneline
 # m4n5o6p design: add color tokens from reference system
 ```
 
-### Programmatic Usage
-
-```javascript
-const { generateImplementationPlan, executePlan } = require('./scripts/implement-design-changes');
-const { compareDesignSystems } = require('./scripts/compare-design-systems');
-
-const { comparisons } = compareDesignSystems(projectPath, referencePath);
-const reference = JSON.parse(fs.readFileSync(referencePath));
-const configs = { tailwind: 'tailwind.config.js' };
-
-const plan = generateImplementationPlan(projectPath, reference, comparisons, configs);
-const results = executePlan(projectPath, plan, true); // dry-run
-```
-
 ## Workflow 4: Generate Implementation Files
 
 After extracting a design system, generate ready-to-use config files:
@@ -261,10 +247,9 @@ Skip live extraction for commonly referenced designs:
 
 | Design System | File | Notes |
 |--------------|------|-------|
-| DuChateau | `examples/extracted/duchateau.json` | Luxury/editorial aesthetic |
-| Linear | `examples/extracted/linear.json` | Clean, minimal SaaS (TODO) |
-| Stripe Dashboard | `examples/extracted/stripe-dashboard.json` | Data-dense, professional (TODO) |
-| Vercel | `examples/extracted/vercel.json` | Developer-focused (TODO) |
+| DuChateau | `examples/extracted/duchateau.json` | Luxury/editorial, serif typography, warm neutrals |
+| Linear | `examples/extracted/linear.json` | Dark-mode SaaS, Inter Variable, indigo accent |
+| Vercel | `examples/extracted/vercel.json` | Developer platform, Geist font, blue accent |
 
 ## Limitations
 
@@ -278,141 +263,3 @@ Skip live extraction for commonly referenced designs:
 - For protected sites: Manual inspection or saved HTML
 - For dynamic content: Scroll page before extraction
 - For CSS-in-JS: Interact with components to trigger style injection
-
-## Script Reference
-
-### extract-design-system.js
-
-Location: `scripts/extract-design-system.js`
-
-Injects into page context and returns comprehensive design tokens:
-- Colors (variables, palette, semantic groupings)
-- Typography (families, scale, weights, line-heights)
-- Spacing (scale, detected grid system)
-- Animations (keyframes, transitions, durations, easings)
-- Components (buttons, inputs, cards patterns)
-- Icons (library detection, sizes)
-- Breakpoints (media queries, container widths)
-- Shadows and border-radius patterns
-
-### compare-design-systems.js
-
-Location: `scripts/compare-design-systems.js`
-
-Compares project styles against a reference design system JSON.
-
-**CLI Usage:**
-```bash
-node scripts/compare-design-systems.js <project-path> <reference.json> [output.md]
-```
-
-**Features:**
-- Auto-detects project type (Tailwind, CSS, CSS-in-JS)
-- Extracts colors, fonts, spacing, border-radius from project
-- CIE ΔE color comparison (perceptually accurate)
-- Generates markdown report with scores per category
-- Provides actionable recommendations
-
-**Exports:**
-- `compareDesignSystems(projectPath, referencePath)` → `{ projectType, comparisons, report }`
-- `deltaE(hex1, hex2)` → number (color difference)
-- `normalizeColor(color)` → hex string
-
-### implement-design-changes.js
-
-Location: `scripts/implement-design-changes.js`
-
-Generates implementation plan with prioritized tokens for each category.
-
-**CLI Usage:**
-```bash
-node scripts/implement-design-changes.js <project-path> <reference.json> [--dry-run]
-```
-
-**Features:**
-- Creates `feature/design-system-alignment` branch
-- Generates tokens in correct format (Tailwind or CSS vars)
-- Prioritizes changes (P0: colors → P4: animations)
-- Outputs `DESIGN_IMPLEMENTATION_PLAN.md` with exact tokens and git commands
-
-**Exports:**
-- `generateImplementationPlan(projectPath, reference, comparisons, configs)` → plan object
-- `executePlan(projectPath, plan, dryRun)` → results array
-
-### generate-tailwind-config.js
-
-Location: `scripts/generate-tailwind-config.js`
-
-Transforms extracted JSON into a production-ready Tailwind config.
-
-**CLI Usage:**
-```bash
-node scripts/generate-tailwind-config.js examples/extracted/duchateau.json
-node scripts/generate-tailwind-config.js examples/extracted/duchateau.json tailwind.config.js
-```
-
-**Programmatic Usage:**
-```javascript
-const { generateTailwindConfig } = require('./scripts/generate-tailwind-config');
-const designSystem = JSON.parse(fs.readFileSync('duchateau.json'));
-const config = generateTailwindConfig(designSystem);
-fs.writeFileSync('tailwind.config.js', config);
-```
-
-**Generates:**
-- `colors` - Semantic color tokens (background, foreground, border, accent)
-- `fontFamily` - Font stacks organized by role (sans, serif, display, mono)
-- `fontSize` - Type scale with calculated line-heights
-- `fontWeight` - Available weights with semantic names
-- `spacing` - Full spacing scale
-- `borderRadius` - Radius tokens with semantic names
-- `boxShadow` - Shadow definitions
-- `screens` - Responsive breakpoints
-- `transitionDuration` - Animation durations
-- `transitionTimingFunction` - Easing curves
-
-### generate-css-variables.js
-
-Location: `scripts/generate-css-variables.js`
-
-Transforms extracted JSON into CSS custom properties.
-
-**CLI Usage:**
-```bash
-node scripts/generate-css-variables.js examples/extracted/duchateau.json
-node scripts/generate-css-variables.js examples/extracted/duchateau.json variables.css
-```
-
-**Programmatic Usage:**
-```javascript
-const { generateCSSVariables } = require('./scripts/generate-css-variables');
-const designSystem = JSON.parse(fs.readFileSync('duchateau.json'));
-const css = generateCSSVariables(designSystem);
-fs.writeFileSync('variables.css', css);
-```
-
-**Generates organized sections:**
-- Colors (palette, semantic backgrounds/text/borders/accents)
-- Typography (families, sizes, weights, line-heights, letter-spacing)
-- Spacing (full scale + shortcuts: xs, sm, md, lg, xl)
-- Border radius
-- Shadows
-- Transitions (durations, easings)
-- Breakpoints (reference values)
-- Container widths
-
-### Usage via Playwright
-
-```javascript
-// Read the script
-const scriptContent = await readFile('scripts/extract-design-system.js');
-
-// Execute in page context
-const designSystem = await browser_run_code({
-  code: `async (page) => {
-    return await page.evaluate(() => {
-      ${scriptContent}
-    });
-  }`
-});
-```

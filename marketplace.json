@@ -1,7 +1,7 @@
 {
-  "name": "design-system-extractor",
-  "version": "1.2.0",
-  "description": "Extract complete design systems from live websites. Compare projects against references with ΔE color matching. Generate Tailwind configs, CSS variables, and implementation plans.",
+  "name": "impression",
+  "version": "1.3.0",
+  "description": "Extract design systems from live websites. Compare projects against references with ΔE color matching. Generate Tailwind configs, CSS variables, and implementation plans.",
   "author": "jamesrosing",
   "license": "MIT",
   "keywords": [
@@ -14,15 +14,16 @@
     "typography",
     "colors",
     "spacing",
-    "ui-design"
+    "ui-design",
+    "impression"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/jamesrosing/design-system-extractor"
+    "url": "https://github.com/jamesrosing/impression"
   },
   "skills": [
     {
-      "name": "design-system-extractor",
+      "name": "impression",
       "path": ".",
       "description": "Extract, compare, and implement design systems from any website"
     }

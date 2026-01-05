@@ -1,4 +1,4 @@
-# Design System Extractor
+# Impression
 
 Extract complete design systems from any live website. Generate structured style guides, compare against existing projects, and create implementation plans.
 
@@ -14,7 +14,7 @@ Extract complete design systems from any live website. Generate structured style
 ### Claude Code (Recommended)
 
 ```bash
-/plugin marketplace add jamesrosing/design-system-extractor
+/plugin marketplace add jamesrosing/impression
 ```
 
 ### Manual Installation
@@ -23,10 +23,10 @@ Copy to your skills directory:
 
 ```bash
 # Personal skills
-cp -r design-system-extractor ~/.claude/skills/
+cp -r impression ~/.claude/skills/
 
 # Project-specific
-cp -r design-system-extractor .claude/skills/
+cp -r impression .claude/skills/
 ```
 
 ### Claude.ai Web App
@@ -172,7 +172,6 @@ Skip live extraction for these popular designs:
 | DuChateau | `examples/extracted/duchateau.json` | Luxury editorial, serif typography, warm neutrals |
 | Linear | `examples/extracted/linear.json` | Dark-mode SaaS, Inter Variable, indigo accent (#5e6ad2) |
 | Vercel | `examples/extracted/vercel.json` | Light-mode developer platform, Geist font, blue accent (#0070f3) |
-| Stripe | `examples/extracted/stripe.json` | Data-dense, professional (TODO) |
 
 ## What Gets Extracted
 
@@ -190,7 +189,7 @@ Skip live extraction for these popular designs:
 ## File Structure
 
 ```
-design-system-extractor/
+impression/
 ├── SKILL.md                    # Main instructions
 ├── marketplace.json            # Plugin metadata
 ├── README.md                   # This file
@@ -205,7 +204,9 @@ design-system-extractor/
 ├── references/                 # (reserved for style references)
 └── examples/
     ├── extracted/
-    │   └── duchateau.json      # Pre-extracted: luxury flooring
+    │   ├── duchateau.json      # Luxury/editorial aesthetic
+    │   ├── linear.json         # Dark-mode SaaS, Inter Variable
+    │   └── vercel.json         # Developer platform, Geist font
     └── generated/              # Generated config examples
         ├── duchateau-tailwind.config.js
         └── duchateau-variables.css
@@ -235,6 +236,7 @@ PRs welcome! Ideas for improvement:
 - [x] CSS variables generator
 - [x] Project comparison with ΔE color matching
 - [x] Implementation plan generator
-- [ ] More pre-extracted references (Stripe, Notion, Tailwind)
+- [x] Pre-extracted references (Linear, Vercel)
+- [ ] More references (Stripe, Notion, Tailwind)
 - [ ] Figma export format
 - [ ] Automated PR generation with before/after screenshots
