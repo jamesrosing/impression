@@ -1,6 +1,6 @@
 {
   "name": "impression",
-  "version": "1.3.0",
+  "version": "2.0.0",
   "description": "Extract design systems from live websites. Compare projects against references with ΔE color matching. Generate Tailwind configs, CSS variables, and implementation plans.",
   "author": "jamesrosing",
   "license": "MIT",
