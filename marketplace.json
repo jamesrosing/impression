@@ -1,7 +1,7 @@
 {
   "name": "impression",
-  "version": "2.0.0",
-  "description": "Extract design systems from live websites. Compare projects against references with ΔE color matching. Generate Tailwind configs, CSS variables, and implementation plans.",
+  "version": "3.0.0",
+  "description": "Extract design systems from live websites. Compare projects against references with CIE ΔE 2000 color matching. Generate Tailwind configs, CSS variables, shadcn themes, W3C tokens, React/Vue/Svelte components, Storybook stories, and implementation plans.",
   "author": "jamesrosing",
   "license": "MIT",
   "keywords": [
@@ -15,11 +15,24 @@
     "colors",
     "spacing",
     "ui-design",
-    "impression"
+    "shadcn",
+    "figma",
+    "w3c-tokens",
+    "wcag",
+    "accessibility",
+    "design-tokens",
+    "storybook",
+    "component-library",
+    "visual-regression",
+    "design-versioning"
   ],
   "repository": {
     "type": "git",
     "url": "https://github.com/jamesrosing/impression"
+  },
+  "compatibility": {
+    "node": ">=18.0.0",
+    "claude-code": ">=1.0.0"
   },
   "skills": [
     {

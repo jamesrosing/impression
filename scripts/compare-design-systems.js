@@ -221,6 +221,13 @@ function normalizeColor(color) {
 
 // ============ WCAG ACCESSIBILITY ============
 
+/**
+ * WCAG 2.4.7 Focus Visible - Focus indicators must be visible
+ * WCAG 2.4.11 Focus Appearance (AAA) - Focus indicator requirements:
+ *   - Minimum area: >= 1 CSS px thick perimeter (outline/border)
+ *   - Contrast: >= 3:1 against adjacent colors
+ */
+
 function getLuminance(hex) {
   const rgb = hexToRgb(hex);
   if (!rgb) return 0;
@@ -312,6 +319,299 @@ function auditAccessibility(colors) {
   }
 
   return { issues, passing };
+}
+
+/**
+ * Audit focus indicators for WCAG 2.4.7 and 2.4.11 compliance
+ * Checks: visibility, contrast, thickness
+ */
+function auditFocusIndicators(focusIndicators, colors) {
+  const issues = [];
+  const passing = [];
+
+  if (!focusIndicators) {
+    issues.push({
+      type: 'focus',
+      severity: 'warning',
+      message: 'No focus indicator data available for audit'
+    });
+    return { issues, passing, score: 0 };
+  }
+
+  // Check if any focus indicators exist
+  const hasOutline = focusIndicators.outlineStyles?.length > 0;
+  const hasRing = focusIndicators.ringStyles?.length > 0;
+  const hasShadow = focusIndicators.shadowStyles?.length > 0;
+  const hasAnyIndicator = hasOutline || hasRing || hasShadow;
+
+  if (!hasAnyIndicator) {
+    issues.push({
+      type: 'focus',
+      severity: 'error',
+      wcag: '2.4.7',
+      message: 'No focus indicators detected - keyboard users cannot see focused elements'
+    });
+    return { issues, passing, score: 0 };
+  }
+
+  // Check hasVisibleFocus flag from extraction
+  if (focusIndicators.hasVisibleFocus === false) {
+    issues.push({
+      type: 'focus',
+      severity: 'error',
+      wcag: '2.4.7',
+      message: 'Focus indicators may be hidden or insufficient'
+    });
+  }
+
+  // Get background colors for contrast checking
+  const backgrounds = colors?.semantic?.backgrounds?.map(c => c.value) ||
+                      colors?.semantic?.background?.primary ? [colors.semantic.background.primary] : [];
+  const defaultBg = backgrounds[0] || '#ffffff';
+
+  // Audit outline styles
+  for (const outline of (focusIndicators.outlineStyles || [])) {
+    const result = auditSingleFocusIndicator(outline, defaultBg, 'outline');
+    if (result.passing) {
+      passing.push(result);
+    } else {
+      issues.push(...result.issues);
+    }
+  }
+
+  // Audit ring styles (box-shadow based)
+  for (const ring of (focusIndicators.ringStyles || [])) {
+    const result = auditSingleFocusIndicator(ring, defaultBg, 'ring');
+    if (result.passing) {
+      passing.push(result);
+    } else {
+      issues.push(...result.issues);
+    }
+  }
+
+  // Audit shadow styles
+  for (const shadow of (focusIndicators.shadowStyles || [])) {
+    const result = auditSingleFocusIndicator(shadow, defaultBg, 'shadow');
+    if (result.passing) {
+      passing.push(result);
+    } else {
+      issues.push(...result.issues);
+    }
+  }
+
+  // Calculate score
+  const totalChecks = (focusIndicators.outlineStyles?.length || 0) +
+                      (focusIndicators.ringStyles?.length || 0) +
+                      (focusIndicators.shadowStyles?.length || 0);
+  const score = totalChecks > 0 ? Math.round((passing.length / totalChecks) * 100) : 0;
+
+  return { issues, passing, score, hasAnyIndicator };
+}
+
+/**
+ * Audit a single focus indicator for compliance
+ */
+function auditSingleFocusIndicator(indicator, backgroundColor, type) {
+  const issues = [];
+
+  // Parse thickness
+  let thickness = 0;
+  if (indicator.width) {
+    const match = String(indicator.width).match(/([\d.]+)/);
+    thickness = match ? parseFloat(match[1]) : 0;
+  } else if (indicator.offset) {
+    // box-shadow spread
+    const match = String(indicator.offset).match(/([\d.]+)/);
+    thickness = match ? parseFloat(match[1]) : 0;
+  }
+
+  // Check thickness (WCAG 2.4.11 recommends >= 2px)
+  if (thickness < 1) {
+    issues.push({
+      type: 'focus',
+      severity: 'error',
+      wcag: '2.4.11',
+      indicator: type,
+      selector: indicator.selector,
+      message: `Focus ${type} too thin (${thickness}px) - minimum 1px required, 2px recommended`
+    });
+  } else if (thickness < 2) {
+    issues.push({
+      type: 'focus',
+      severity: 'warning',
+      wcag: '2.4.11',
+      indicator: type,
+      selector: indicator.selector,
+      message: `Focus ${type} is thin (${thickness}px) - 2px+ recommended for visibility`
+    });
+  }
+
+  // Check color contrast against background
+  let indicatorColor = indicator.color;
+  if (indicatorColor) {
+    const normalizedColor = normalizeColor(indicatorColor);
+    const normalizedBg = normalizeColor(backgroundColor);
+
+    if (normalizedColor && normalizedBg) {
+      const ratio = getContrastRatio(normalizedColor, normalizedBg);
+
+      if (ratio < 3) {
+        issues.push({
+          type: 'focus',
+          severity: 'error',
+          wcag: '2.4.11',
+          indicator: type,
+          selector: indicator.selector,
+          color: indicatorColor,
+          background: backgroundColor,
+          ratio: ratio.toFixed(2),
+          message: `Focus ${type} contrast too low (${ratio.toFixed(2)}:1) - needs >= 3:1`
+        });
+      } else {
+        // Passing
+        return {
+          passing: true,
+          type,
+          selector: indicator.selector,
+          color: indicatorColor,
+          thickness,
+          contrast: ratio.toFixed(2)
+        };
+      }
+    }
+  }
+
+  // Check for outline: none or invisible styles
+  if (indicator.style === 'none' || indicator.width === '0' || indicator.width === '0px') {
+    issues.push({
+      type: 'focus',
+      severity: 'error',
+      wcag: '2.4.7',
+      indicator: type,
+      selector: indicator.selector,
+      message: `Focus indicator explicitly hidden with ${type}: none`
+    });
+  }
+
+  if (issues.length === 0) {
+    return {
+      passing: true,
+      type,
+      selector: indicator.selector,
+      color: indicatorColor,
+      thickness
+    };
+  }
+
+  return { passing: false, issues };
+}
+
+/**
+ * Compare focus indicators between project and reference
+ */
+function compareFocusIndicators(projectFocusIndicators, referenceFocusIndicators) {
+  const results = {
+    projectHasIndicators: false,
+    referenceHasIndicators: false,
+    matched: [],
+    missing: [],
+    extra: [],
+    score: 0
+  };
+
+  // Check if project has focus indicators
+  if (projectFocusIndicators) {
+    results.projectHasIndicators = (
+      (projectFocusIndicators.outlineStyles?.length > 0) ||
+      (projectFocusIndicators.ringStyles?.length > 0) ||
+      (projectFocusIndicators.shadowStyles?.length > 0)
+    );
+  }
+
+  // Check if reference has focus indicators
+  if (referenceFocusIndicators) {
+    results.referenceHasIndicators = (
+      (referenceFocusIndicators.outlineStyles?.length > 0) ||
+      (referenceFocusIndicators.ringStyles?.length > 0) ||
+      (referenceFocusIndicators.shadowStyles?.length > 0)
+    );
+  }
+
+  // If neither has indicators, score based on whether both lack them
+  if (!results.projectHasIndicators && !results.referenceHasIndicators) {
+    results.score = 100; // Both lack - consistent but may be an issue
+    return results;
+  }
+
+  // If reference has but project doesn't
+  if (results.referenceHasIndicators && !results.projectHasIndicators) {
+    results.missing.push('Focus indicators from reference not found in project');
+    results.score = 0;
+    return results;
+  }
+
+  // If project has but reference doesn't
+  if (results.projectHasIndicators && !results.referenceHasIndicators) {
+    results.extra.push('Project has focus indicators (good!) but reference lacks them');
+    results.score = 100; // Project is better
+    return results;
+  }
+
+  // Both have indicators - compare styles
+  const refStyles = [
+    ...(referenceFocusIndicators.outlineStyles || []),
+    ...(referenceFocusIndicators.ringStyles || []),
+    ...(referenceFocusIndicators.shadowStyles || [])
+  ];
+
+  const projStyles = [
+    ...(projectFocusIndicators.outlineStyles || []),
+    ...(projectFocusIndicators.ringStyles || []),
+    ...(projectFocusIndicators.shadowStyles || [])
+  ];
+
+  // Compare by color similarity
+  for (const proj of projStyles) {
+    const projColor = normalizeColor(proj.color);
+    let foundMatch = false;
+
+    for (const ref of refStyles) {
+      const refColor = normalizeColor(ref.color);
+      if (projColor && refColor) {
+        const de = deltaE(projColor, refColor);
+        if (de < 10) { // More lenient for focus colors
+          results.matched.push({
+            project: proj.color,
+            reference: ref.color,
+            deltaE: de.toFixed(2)
+          });
+          foundMatch = true;
+          break;
+        }
+      }
+    }
+
+    if (!foundMatch && projColor) {
+      results.extra.push(proj.color);
+    }
+  }
+
+  // Find missing from reference
+  for (const ref of refStyles) {
+    const refColor = normalizeColor(ref.color);
+    const isMatched = results.matched.some(m =>
+      normalizeColor(m.reference) === refColor
+    );
+    if (!isMatched && refColor) {
+      results.missing.push(ref.color);
+    }
+  }
+
+  // Calculate score
+  const total = refStyles.length || 1;
+  results.score = Math.round((results.matched.length / total) * 100);
+
+  return results;
 }
 
 // ============ PROJECT STYLE EXTRACTION ============
@@ -656,7 +956,7 @@ function compareBorderRadius(projectRadius, referenceRadius) {
 
 // ============ REPORT GENERATION ============
 
-function generateReport(projectPath, reference, projectType, comparisons, accessibilityAudit) {
+function generateReport(projectPath, reference, projectType, comparisons, accessibilityAudit, focusAudit) {
   const lines = [];
   const overallScore = Math.round(
     (comparisons.colors.score + comparisons.typography.score +
@@ -721,6 +1021,62 @@ function generateReport(projectPath, reference, projectType, comparisons, access
       }
       if (accessibilityAudit.passing.length > 5) {
         lines.push(`- ... and ${accessibilityAudit.passing.length - 5} more`);
+      }
+      lines.push('');
+    }
+  }
+
+  // Focus Indicator Audit section
+  if (focusAudit) {
+    lines.push(`## Focus Indicator Audit (WCAG 2.4.7 & 2.4.11)`);
+    lines.push('');
+
+    const focusErrors = focusAudit.issues.filter(i => i.severity === 'error');
+    const focusWarnings = focusAudit.issues.filter(i => i.severity === 'warning');
+
+    if (focusErrors.length === 0 && focusWarnings.length === 0 && focusAudit.hasAnyIndicator) {
+      lines.push(`✅ Focus indicators pass WCAG requirements.`);
+      lines.push('');
+    } else {
+      if (!focusAudit.hasAnyIndicator) {
+        lines.push(`### ❌ Critical: No Focus Indicators Detected`);
+        lines.push('');
+        lines.push(`Keyboard users will not be able to see which element has focus.`);
+        lines.push('');
+      }
+
+      if (focusErrors.length > 0) {
+        lines.push(`### ❌ Focus Indicator Errors (${focusErrors.length})`);
+        lines.push('');
+        lines.push(`| Type | WCAG | Issue |`);
+        lines.push(`|------|------|-------|`);
+        for (const err of focusErrors) {
+          const wcag = err.wcag ? `${err.wcag}` : '-';
+          lines.push(`| ${err.indicator || 'focus'} | ${wcag} | ${err.message} |`);
+        }
+        lines.push('');
+      }
+
+      if (focusWarnings.length > 0) {
+        lines.push(`### ⚠️ Focus Indicator Warnings (${focusWarnings.length})`);
+        lines.push('');
+        for (const warn of focusWarnings) {
+          lines.push(`- ${warn.message}`);
+        }
+        lines.push('');
+      }
+    }
+
+    if (focusAudit.passing?.length > 0) {
+      lines.push(`### ✅ Passing Focus Styles (${focusAudit.passing.length})`);
+      lines.push('');
+      for (const pass of focusAudit.passing.slice(0, 5)) {
+        const contrast = pass.contrast ? ` (${pass.contrast}:1)` : '';
+        const thick = pass.thickness ? `, ${pass.thickness}px thick` : '';
+        lines.push(`- **${pass.type}**: \`${pass.color || 'default'}\`${contrast}${thick}`);
+      }
+      if (focusAudit.passing.length > 5) {
+        lines.push(`- ... and ${focusAudit.passing.length - 5} more`);
       }
       lines.push('');
     }
@@ -851,6 +1207,9 @@ function generateReport(projectPath, reference, projectType, comparisons, access
   if (accessibilityAudit?.issues.filter(i => i.severity === 'error').length > 0) {
     recommendations.push(`${recommendations.length + 1}. **Fix accessibility issues** - ${accessibilityAudit.issues.filter(i => i.severity === 'error').length} color combinations fail WCAG AA`);
   }
+  if (focusAudit?.issues.filter(i => i.severity === 'error').length > 0) {
+    recommendations.push(`${recommendations.length + 1}. **Fix focus indicators** - ${focusAudit.issues.filter(i => i.severity === 'error').length} focus visibility issues (WCAG 2.4.7/2.4.11)`);
+  }
 
   if (recommendations.length === 0) {
     lines.push('Project is well-aligned with the reference design system! Minor tweaks may improve consistency further.');
@@ -894,10 +1253,16 @@ function compareDesignSystems(projectPath, referencePath, options = {}) {
     accessibilityAudit = auditAccessibility(reference.colors);
   }
 
-  // Generate report
-  const report = generateReport(projectPath, reference, projectType, comparisons, accessibilityAudit);
+  // Focus indicator audit (WCAG 2.4.7 & 2.4.11)
+  let focusAudit = null;
+  if (includeAccessibility && reference.focusIndicators) {
+    focusAudit = auditFocusIndicators(reference.focusIndicators, reference.colors);
+  }
 
-  return { projectType, comparisons, accessibilityAudit, report };
+  // Generate report
+  const report = generateReport(projectPath, reference, projectType, comparisons, accessibilityAudit, focusAudit);
+
+  return { projectType, comparisons, accessibilityAudit, focusAudit, report };
 }
 
 // CLI execution
@@ -928,7 +1293,7 @@ if (require.main === module) {
   }
 
   try {
-    const { projectType, comparisons, accessibilityAudit, report } = compareDesignSystems(projectPath, referencePath);
+    const { projectType, comparisons, accessibilityAudit, focusAudit, report } = compareDesignSystems(projectPath, referencePath);
 
     console.log(`Detected project type: ${projectType}`);
     console.log(`Overall alignment: ${Math.round((comparisons.colors.score + comparisons.typography.score + comparisons.spacing.score + comparisons.borderRadius.score) / 4)}%`);
@@ -936,7 +1301,13 @@ if (require.main === module) {
     if (accessibilityAudit) {
       const errors = accessibilityAudit.issues.filter(i => i.severity === 'error').length;
       const warnings = accessibilityAudit.issues.filter(i => i.severity === 'warning').length;
-      console.log(`Accessibility: ${errors} errors, ${warnings} warnings`);
+      console.log(`Contrast audit: ${errors} errors, ${warnings} warnings`);
+    }
+
+    if (focusAudit) {
+      const focusErrors = focusAudit.issues.filter(i => i.severity === 'error').length;
+      const focusWarnings = focusAudit.issues.filter(i => i.severity === 'warning').length;
+      console.log(`Focus indicators: ${focusErrors} errors, ${focusWarnings} warnings`);
     }
 
     console.log('');
@@ -962,6 +1333,8 @@ module.exports = {
   getContrastRatio,
   checkWCAG,
   auditAccessibility,
+  auditFocusIndicators,
+  compareFocusIndicators,
   hexToRgb,
   rgbToLab,
   getLuminance

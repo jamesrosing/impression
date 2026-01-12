@@ -68,6 +68,30 @@ node scripts/ci-compare.js <project-path> <reference.json> [--format=github|gitl
 
 # Generate screenshot capture plan
 node scripts/capture-screenshots.js <url> [output-dir]
+
+# Generate React/Vue/Svelte component library
+node scripts/generate-component-library.js <design-system.json> [output-dir] [--framework=react|vue|svelte]
+
+# Generate style guide documentation
+node scripts/generate-style-guide.js <design-system.json> [output] [--format=html|md]
+
+# Visual regression testing
+node scripts/visual-regression.js <before-dir> <after-dir> [output-dir] [--threshold=0.1]
+
+# Watch design system for changes
+node scripts/watch-design-system.js <design-system.json> [baseline.json] [--webhook=url]
+
+# Generate PR description from design changes
+node scripts/pr-automation.js <before.json> <after.json> [--format=github|gitlab]
+
+# Generate Storybook CSF3 stories
+node scripts/generate-storybook.js <design-system.json> [output-dir]
+
+# Design versioning and history
+node scripts/design-versioning.js <command> [options]  # init|snapshot|list|diff|rollback|changelog
+
+# Semantic naming for colors
+node scripts/semantic-naming.js <design-system.json> [--format=json|css|tailwind]
 ```
 
 ## Architecture
@@ -116,17 +140,25 @@ const result = await browser_run_code({
 
 | Script | Purpose | Key Exports |
 |--------|---------|-------------|
-| `extract-design-system.js` | Browser injection script; walks DOM, extracts CSS vars, computed styles, keyframes | `extractDesignSystem()` |
-| `compare-design-systems.js` | Compares project to reference JSON using CIE ΔE 2000 color matching (ΔE < 5 = similar) | `compareDesignSystems()`, `deltaE2000()`, `getContrastRatio()` |
+| `extract-design-system.js` | Browser injection script; walks DOM, extracts CSS vars, computed styles, keyframes, interaction states | `extractDesignSystem()` |
+| `compare-design-systems.js` | Compares project to reference JSON using CIE ΔE 2000 color matching (ΔE < 5 = similar), WCAG + focus audit | `compareDesignSystems()`, `deltaE2000()`, `getContrastRatio()`, `auditFocusIndicators()` |
 | `implement-design-changes.js` | Generates prioritized plan (P0: colors → P4: animations), creates feature branch, modifies configs | `generateImplementationPlan()`, `executePlan()`, `modifyTailwindConfig()` |
 | `generate-tailwind-config.js` | JSON → Tailwind config | `generateTailwindConfig()` |
 | `generate-css-variables.js` | JSON → CSS custom properties | `generateCSSVariables()` |
 | `generate-shadcn-theme.js` | JSON → shadcn/ui HSL format | `mapToShadcnTheme()`, `generateCSS()` |
 | `generate-w3c-tokens.js` | JSON → W3C Design Tokens or Style Dictionary | `generateW3CTokens()`, `generateStyleDictionary()` |
 | `generate-figma-tokens.js` | JSON → Figma Variables API format | `generateFigmaVariables()`, `generateTokensStudio()` |
+| `generate-component-library.js` | JSON → React/Vue/Svelte components with design tokens | `generateComponentLibrary()`, `generateReactComponent()` |
+| `generate-style-guide.js` | JSON → interactive HTML or Markdown documentation | `generateStyleGuide()`, `generateHTML()`, `generateMarkdown()` |
+| `generate-storybook.js` | JSON → Storybook CSF3 stories | `generateStorybook()`, `generateColorStories()` |
 | `blend-design-systems.js` | Merge multiple design systems | `blendDesignSystems()`, `dedupeColors()` |
 | `migrate-tokens.js` | Convert between token formats | `migrateTokens()`, `detectFormat()` |
 | `capture-screenshots.js` | Generate screenshot capture plans | `generateCapturePlan()`, `generateComparisonReport()` |
+| `visual-regression.js` | Pixel-diff comparison between before/after screenshots | `compareScreenshots()`, `generateDiffReport()` |
+| `watch-design-system.js` | Monitor design system files for changes | `watchDesignSystem()`, `deepDiff()`, `detectSeverity()` |
+| `pr-automation.js` | Generate PR descriptions from design changes | `generatePRBody()`, `generateCommitMessage()`, `detectImpactLevel()` |
+| `design-versioning.js` | Version tracking with snapshots and history | `initVersioning()`, `createSnapshot()`, `diffVersions()`, `rollback()` |
+| `semantic-naming.js` | Intelligent semantic naming using HSL analysis | `analyzeDesignSystem()`, `detectColorRole()`, `generateNamedTokens()` |
 | `ci-compare.js` | CI/CD integration with exit codes | `runCIComparison()`, `generateGitHubAnnotations()` |
 
 ## Pre-Extracted References
@@ -154,9 +186,13 @@ const result = await browser_run_code({
 
 - **Color Comparison**: RGB → XYZ → LAB → CIE ΔE 2000 (ΔE < 5 = perceptually similar)
 - **Accessibility**: WCAG 2.1 contrast ratio calculation (AAA: ≥7:1, AA: ≥4.5:1)
+- **Focus Indicators**: WCAG 2.4.7/2.4.11 compliance (contrast ≥3:1, thickness ≥2px recommended)
 - **Color Blending**: Weighted RGB interpolation with deduplication by color distance
+- **Semantic Naming**: HSL color analysis for role detection (primary, success, error, warning, etc.)
 - **Project Detection**: Checks for `tailwind.config.{js,ts,mjs,cjs}`, then CSS files
 - **Priority System**: P0 (colors) → P1 (typography) → P2 (spacing) → P3 (border-radius) → P4 (animations)
+- **Visual Regression**: Pixel-diff comparison with configurable threshold
+- **Version Diffing**: Deep object comparison with change categorization
 
 ## File Purposes
 

@@ -1,19 +1,13 @@
 ---
 name: impression
 description: |
-  Extract complete design systems from live websites, compare against existing projects, and generate implementation plans with atomic commits. Use this skill when the user wants to:
-
-  **Extraction triggers:** "scrape styles", "extract design", "grab the CSS", "get the design system", "reverse-engineer the styling", "pull the theme from", "what fonts/colors does [site] use", "analyze the design of", "extract from URL"
-
-  **Comparison triggers:** "compare my styles", "how close is my design to", "match [reference] design", "align with [brand] styling", "design system diff", "design alignment", "style comparison"
-
-  **Generation triggers:** "generate tailwind config", "create CSS variables", "convert to tailwind", "implementation plan", "apply [site] design", "generate shadcn theme", "export to figma", "W3C tokens", "style dictionary"
-
-  **Blending/Migration triggers:** "blend design systems", "merge styles", "combine designs", "migrate tokens", "convert tokens", "token format"
-
-  **Pre-extracted references:** Linear design, Vercel design, DuChateau design, Sorrel design
-
-  Outputs JSON, Tailwind config, CSS variables, shadcn/ui themes, W3C Design Tokens, Figma Variables, or Style Dictionary format. Compares using CIE ΔE 2000 perceptual color matching with WCAG accessibility audits.
+  Extract design systems from live websites, compare projects against references, generate implementation plans. Triggers: "extract design", "scrape styles", "get design system", "grab CSS from URL", "what fonts/colors does [site] use", "compare my styles to", "match [brand] design", "design system diff", "generate tailwind config", "create CSS variables", "shadcn theme", "W3C tokens", "figma variables", "blend designs", "migrate tokens". Pre-extracted: Linear, Vercel, DuChateau, Sorrel. Outputs JSON, Tailwind, CSS vars, shadcn, W3C tokens, Figma, Style Dictionary. Uses CIE ΔE 2000 color matching + WCAG audits.
+license: MIT
+compatibility: Node.js 18+, Playwright MCP (for live extraction)
+metadata:
+  author: jamesrosing
+  version: "3.0.0"
+  repository: https://github.com/jamesrosing/impression
 ---
 
 # Impression
@@ -47,41 +41,16 @@ Convert the Linear design to W3C tokens format
 
 ### Process
 
-1. Navigate to target URL:
-   ```javascript
-   await browser_navigate({ url: 'https://example.com' });
-   ```
+1. `browser_navigate({ url })` → target site
+2. `browser_wait_for({ time: 3 })` → wait for fonts/animations
+3. `browser_resize()` + `browser_take_screenshot()` → capture viewports (1920px, 768px, 375px)
+4. `browser_run_code()` → inject `scripts/extract-design-system.js` via `page.evaluate()`
+5. Save result to `{site-name}-design-system.json`
 
-2. Wait for full page load (fonts, animations):
-   ```javascript
-   await browser_wait_for({ time: 3 });
-   ```
+### Output
 
-3. Capture multiple viewports for responsive patterns:
-   ```javascript
-   await browser_resize({ width: 1920, height: 1080 });
-   await browser_take_screenshot({ filename: 'desktop.png' });
-   await browser_resize({ width: 768, height: 1024 });
-   await browser_resize({ width: 375, height: 667 });
-   ```
-
-4. Inject extraction script:
-   ```javascript
-   const result = await browser_run_code({
-     code: `(async (page) => {
-       return await page.evaluate(() => {
-         // Paste contents of scripts/extract-design-system.js here
-       });
-     })`
-   });
-   ```
-
-5. Save extracted data to JSON following the schema in `assets/style-guide-schema.json`
-
-### Output Files
-
-- `{site-name}-design-system.json` - Complete extracted tokens
-- Optional: Tailwind config, CSS variables, shadcn theme, W3C tokens, Figma variables
+- Primary: JSON following `assets/style-guide-schema.json`
+- Optional: Run generators for Tailwind, CSS vars, shadcn, W3C tokens, Figma
 
 ## Workflow 2: Compare Project Against Style Guide
 
@@ -98,6 +67,7 @@ node scripts/compare-design-systems.js /path/to/project references/duchateau.jso
 |----------|-----------|----------------|
 | Colors | CIE ΔE 2000 | Exact: ΔE = 0, Similar: ΔE < 5, Different: ΔE ≥ 5 |
 | Contrast | WCAG 2.1 | AAA: ≥7:1, AA: ≥4.5:1, AA-large: ≥3:1 |
+| Focus Indicators | WCAG 2.4.7/2.4.11 | Contrast ≥3:1, Thickness ≥2px recommended |
 | Typography | Fuzzy string match | Font family name contains/contained by reference |
 | Spacing | Numeric diff | Exact: 0px diff, Close: ≤2px diff |
 | Border Radius | Exact match | Pixel value equality |
@@ -211,6 +181,114 @@ Exit codes: 0 = pass, 1 = critical issues, 2 = warnings
 | Linear | `references/linear.json` | Dark-mode SaaS, Inter Variable, indigo accent |
 | Vercel | `references/vercel.json` | Developer platform, Geist font, blue accent |
 | Sorrel | `references/sorrel.json` | Light-mode cooking app, Söhne + Novarese, cream |
+
+## Workflow 8: Generate Component Library
+
+Generate React/Vue/Svelte components from extracted design patterns:
+
+```bash
+# React components (default)
+node scripts/generate-component-library.js site-design.json ./components
+
+# Vue components
+node scripts/generate-component-library.js site-design.json ./components --framework=vue
+
+# Svelte components
+node scripts/generate-component-library.js site-design.json ./components --framework=svelte
+```
+
+Generates Button, Input, Card components with design tokens, TypeScript types, and index exports.
+
+## Workflow 9: Generate Style Guide Documentation
+
+```bash
+# Interactive HTML style guide
+node scripts/generate-style-guide.js site-design.json style-guide.html
+
+# Markdown documentation
+node scripts/generate-style-guide.js site-design.json style-guide.md --format=md
+```
+
+## Workflow 10: Visual Regression Testing
+
+```bash
+# Compare before/after screenshots
+node scripts/visual-regression.js ./before-screenshots ./after-screenshots ./diff-output
+
+# With custom threshold
+node scripts/visual-regression.js ./before ./after --threshold=0.05
+```
+
+Exit codes: 0 = no changes, 1 = visual differences detected
+
+## Workflow 11: Watch Design System Changes
+
+```bash
+# Monitor design system for changes
+node scripts/watch-design-system.js site-design.json baseline.json
+
+# With webhook notifications
+node scripts/watch-design-system.js design.json --webhook=https://hooks.slack.com/...
+```
+
+## Workflow 12: PR Automation
+
+```bash
+# Generate PR body from design changes
+node scripts/pr-automation.js before.json after.json --format=github
+
+# GitLab format
+node scripts/pr-automation.js before.json after.json --format=gitlab
+
+# Generate commit message
+node scripts/pr-automation.js before.json after.json --commit-message
+```
+
+## Workflow 13: Storybook Generation
+
+```bash
+# Generate Storybook CSF3 stories
+node scripts/generate-storybook.js site-design.json ./stories
+```
+
+Generates stories for Colors, Typography, Spacing, Components in Storybook 7+ format.
+
+## Workflow 14: Design Versioning
+
+```bash
+# Initialize version tracking
+node scripts/design-versioning.js init --design=site-design.json
+
+# Create version snapshot
+node scripts/design-versioning.js snapshot --message="Add new brand colors"
+
+# List versions
+node scripts/design-versioning.js list
+
+# Compare versions
+node scripts/design-versioning.js diff v1 v2
+
+# Rollback to previous version
+node scripts/design-versioning.js rollback v1
+
+# Generate changelog
+node scripts/design-versioning.js changelog
+```
+
+## Workflow 15: Semantic Naming
+
+```bash
+# Generate semantic names for colors
+node scripts/semantic-naming.js site-design.json
+
+# Output as CSS variables
+node scripts/semantic-naming.js site-design.json --format=css
+
+# Output as Tailwind config
+node scripts/semantic-naming.js site-design.json --format=tailwind
+```
+
+Analyzes colors using HSL and detects semantic roles (primary, success, error, warning, etc.).
 
 ## Limitations
 
