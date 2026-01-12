@@ -9,8 +9,8 @@ This is a **distributable Claude Code skill**. The `impression/` directory IS th
 ### Installation
 
 ```bash
-# Marketplace (recommended)
-/plugin marketplace add jamesrosing/impression
+# From GitHub (recommended)
+git clone https://github.com/jamesrosing/impression ~/.claude/skills/impression
 
 # Manual - personal skills
 cp -r impression ~/.claude/skills/
@@ -19,7 +19,7 @@ cp -r impression ~/.claude/skills/
 cp -r impression <project>/.claude/skills/
 
 # Development - symlink for live editing
-ln -s /mnt/d/projects/skillsMP/impression ~/.claude/skills/impression
+ln -s /path/to/impression ~/.claude/skills/impression
 ```
 
 ### Current Installation

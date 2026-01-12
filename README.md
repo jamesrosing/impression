@@ -15,10 +15,10 @@ Extract complete design systems from any live website using Playwright browser a
 
 ## Installation
 
-### Claude Code (Recommended)
+### From GitHub (Recommended)
 
 ```bash
-/plugin marketplace add jamesrosing/impression
+git clone https://github.com/jamesrosing/impression ~/.claude/skills/impression
 ```
 
 ### Manual Installation
@@ -28,7 +28,7 @@ Extract complete design systems from any live website using Playwright browser a
 cp -r impression ~/.claude/skills/
 
 # Project-specific
-cp -r impression .claude/skills/
+cp -r impression <project>/.claude/skills/
 ```
 
 ## Usage
