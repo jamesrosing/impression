@@ -2,9 +2,34 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Skill Package Structure
+
+This is a **distributable Claude Code skill**. The `impression/` directory IS the skill package that gets installed to `.claude/skills/impression/`.
+
+### Installation
+
+```bash
+# Marketplace (recommended)
+/plugin marketplace add jamesrosing/impression
+
+# Manual - personal skills
+cp -r impression ~/.claude/skills/
+
+# Manual - project-specific
+cp -r impression <project>/.claude/skills/
+
+# Development - symlink for live editing
+ln -s /mnt/d/projects/skillsMP/impression ~/.claude/skills/impression
+```
+
+### Current Installation
+```
+~/.claude/skills/impression -> /mnt/d/projects/skillsMP/impression
+```
+
 ## Project Overview
 
-**Impression** is a Claude Code skill/plugin that extracts design systems from live websites using Playwright browser automation. It outputs structured JSON, and can generate Tailwind configs or CSS variables. It also compares existing projects against extracted reference designs and generates implementation plans.
+**Impression** is a Claude Code skill/plugin that extracts design systems from live websites using Playwright browser automation. It outputs structured JSON, and can generate Tailwind configs, CSS variables, shadcn/ui themes, W3C Design Tokens, Figma Variables, or Style Dictionary format. It also compares existing projects against extracted reference designs and generates implementation plans.
 
 **No dependencies** - vanilla Node.js scripts, no package.json, no build step.
 
@@ -43,12 +68,25 @@ node scripts/ci-compare.js <project-path> <reference.json> [--format=github|gitl
 
 # Generate screenshot capture plan
 node scripts/capture-screenshots.js <url> [output-dir]
-
-# Run tests
-node tests/test-core.js
 ```
 
-## Live Extraction Workflow
+## Architecture
+
+### Core Data Flow
+
+```
+Live URL → [Playwright extract] → Impression JSON → [generators] → Output formats
+                                        ↓
+                              [compare-design-systems.js]
+                                        ↓
+                            Comparison Report + Gaps
+                                        ↓
+                           [implement-design-changes.js]
+                                        ↓
+                          Feature branch + Modified configs
+```
+
+### Live Extraction Workflow
 
 The core use case is extracting from a live URL via Playwright MCP tools:
 
@@ -74,7 +112,7 @@ const result = await browser_run_code({
 // 5. Save result to references/{site}.json
 ```
 
-## Scripts
+### Script Purposes
 
 | Script | Purpose | Key Exports |
 |--------|---------|-------------|
@@ -136,4 +174,3 @@ const result = await browser_run_code({
 - Exports are at bottom of each file via `module.exports`
 - No external dependencies — uses only Node.js built-ins (`fs`, `path`, `child_process`)
 - Color normalization handles hex (3/6 digit), rgb(), rgba(), hsl(), and named colors
-- Run `node tests/test-core.js` to verify all functionality
