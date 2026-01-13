@@ -1,6 +1,6 @@
 {
   "name": "impression",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "description": "Extract design systems from live websites. Compare projects against references with CIE ΔE 2000 color matching. Generate Tailwind configs, CSS variables, shadcn themes, W3C tokens, React/Vue/Svelte components, Storybook stories, and implementation plans.",
   "author": "jamesrosing",
   "license": "MIT",

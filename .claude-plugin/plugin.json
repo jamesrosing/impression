@@ -1,0 +1,38 @@
+{
+  "name": "impression",
+  "version": "3.1.0",
+  "description": "Extract design systems from live websites, compare projects against references with CIE ΔE 2000 color matching, and generate implementation plans with token exports.",
+  "author": {
+    "name": "jamesrosing",
+    "email": "james@jamesrosing.com"
+  },
+  "homepage": "https://github.com/jamesrosing/impression#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jamesrosing/impression"
+  },
+  "license": "MIT",
+  "keywords": [
+    "design-system",
+    "style-extraction",
+    "tailwind",
+    "css-variables",
+    "shadcn",
+    "w3c-tokens",
+    "figma-variables",
+    "wcag-accessibility",
+    "color-matching",
+    "playwright",
+    "component-library",
+    "storybook",
+    "design-tokens"
+  ],
+  "compatibility": {
+    "claude-code": ">=1.0.0",
+    "node": ">=18.0.0"
+  },
+  "skills": [
+    "./skills/impression"
+  ],
+  "commands": []
+}

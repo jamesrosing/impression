@@ -1,10 +1,14 @@
 # Impression
 
-Extract complete design systems from any live website using Playwright browser automation. Compare projects against reference designs with perceptually accurate color matching, generate implementation plans, and export to multiple token formats.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Node.js: 18+](https://img.shields.io/badge/Node.js-18%2B-green.svg)](https://nodejs.org/)
+[![Claude Code](https://img.shields.io/badge/Claude%20Code-Plugin-blue.svg)](https://claude.ai/code)
+
+> Extract complete design systems from any live website using Playwright browser automation. Compare projects against reference designs with perceptually accurate color matching, generate implementation plans, and export to multiple token formats.
 
 ## Why Impression?
 
-**The "make it look like X" problem is tedious.** When a client says "match Linear's design" or "align with our brand guidelines", you're stuck:
+**The "make it look like X" problem is inefficient.** When a client says "match webapp X design" or "align with our brand guidelines", you're stuck:
 
 - Opening DevTools, inspecting elements one-by-one
 - Copy-pasting CSS variables manually
@@ -37,19 +41,37 @@ Extract complete design systems from any live website using Playwright browser a
 
 ## Installation
 
-### From GitHub (Recommended)
+### Claude Code Plugin (Recommended)
 
 ```bash
-git clone https://github.com/jamesrosing/impression ~/.claude/skills/impression
+# Install via Claude Code CLI
+claude plugin install github:jamesrosing/impression
 ```
 
-### Manual Installation
+Or add to your Claude Code settings manually:
 
 ```bash
-# Personal skills
-cp -r impression ~/.claude/skills/
+# Clone to plugins directory
+git clone https://github.com/jamesrosing/impression ~/.claude/plugins/impression
+```
 
-# Project-specific
+### Project-Specific Installation
+
+```bash
+# For team-shared plugin
+cp -r impression <project>/.claude/plugins/
+
+# Development - symlink for live editing
+ln -s /path/to/impression ~/.claude/plugins/impression
+```
+
+### Legacy Skills Installation
+
+```bash
+# Personal skills directory
+git clone https://github.com/jamesrosing/impression ~/.claude/skills/impression
+
+# Project-specific skills
 cp -r impression <project>/.claude/skills/
 ```
 
@@ -428,6 +450,33 @@ design-check:
       codequality: gl-code-quality.json
 ```
 
+## Security Considerations
+
+### Data Privacy
+
+- **Local Processing**: All design extraction and comparison happens locally. No data is sent to external servers.
+- **No Credentials Stored**: The plugin does not store or transmit authentication credentials.
+- **File System Access**: Scripts only access files within the project directory and explicitly specified paths.
+
+### Browser Automation Safety
+
+- **Read-Only Operations**: Extraction scripts perform read-only operations on target websites.
+- **No Form Submissions**: The plugin does not submit forms or modify content on scraped sites.
+- **Respect robots.txt**: Consider site policies when extracting from third-party websites.
+
+### Input Validation
+
+- **Path Sanitization**: All file paths are validated before read/write operations.
+- **JSON Validation**: Design system JSON is validated against the schema before processing.
+- **No Code Execution**: User-provided data is never executed as code.
+
+### Best Practices
+
+1. Only extract from websites you have permission to analyze
+2. Review generated configs before committing to version control
+3. Use `--dry-run` flag to preview changes before execution
+4. Keep extracted design systems in version control for audit trails
+
 ## Limitations
 
 - **Cross-origin stylesheets**: May be inaccessible due to CORS
@@ -446,7 +495,38 @@ MIT
 
 ## Contributing
 
-PRs welcome! Completed features:
+Contributions are welcome! Please follow these guidelines:
+
+### Development Setup
+
+```bash
+# Clone the repository
+git clone https://github.com/jamesrosing/impression
+cd impression
+
+# Run tests
+node tests/test-runner.js
+
+# Test locally with Claude Code
+claude --plugin-dir ./
+```
+
+### Contribution Guidelines
+
+1. **Fork & Branch**: Create a feature branch from `main`
+2. **Code Style**: Follow existing patterns (vanilla Node.js, no external dependencies)
+3. **Test**: Add tests for new functionality in `tests/`
+4. **Document**: Update README.md and CLAUDE.md for new features
+5. **Commit**: Use semantic commit messages (`feat:`, `fix:`, `docs:`)
+
+### Pull Request Process
+
+1. Ensure all tests pass
+2. Update documentation
+3. Add entry to CHANGELOG.md
+4. Request review
+
+### Completed Features
 
 - [x] Tailwind config generator
 - [x] CSS variables generator

@@ -5,6 +5,26 @@ All notable changes to Impression will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.1.0] - 2025-01-13
+
+### Added
+- **`.claude-plugin/plugin.json`** - Official plugin manifest following Anthropic's standards
+- **`skills/impression/SKILL.md`** - Proper skill directory structure
+- **Security Considerations** section in README.md
+- **Contributing Guidelines** with development setup in README.md
+- **Trigger Keywords** section in CLAUDE.md for discoverability
+
+### Changed
+- Updated plugin structure to follow Anthropic's official plugin architecture
+- Enhanced README.md with badges, improved installation instructions
+- Enhanced CLAUDE.md with plugin structure documentation and security notes
+- Updated installation paths from `.claude/skills/` to `.claude/plugins/`
+
+### Documentation
+- Added comprehensive security considerations (data privacy, browser safety, input validation)
+- Added development setup instructions for contributors
+- Added pull request process guidelines
+
 ## [3.0.0] - 2025-01-12
 
 ### Added
@@ -84,6 +104,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 | Version | Date | Summary |
 |---------|------|---------|
+| 3.1.0 | 2025-01-13 | Anthropic plugin standards compliance, security docs, contributing guidelines |
 | 3.0.0 | 2025-01-12 | 8 new scripts, shared utilities, focus indicator audit, component generation |
 | 2.0.0 | 2025-01-07 | CI/CD integration, token migration, design blending, Figma export |
 | 1.0.0 | 2025-01-05 | Initial release with extraction, comparison, and token generation |

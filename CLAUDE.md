@@ -2,29 +2,43 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Skill Package Structure
+## Plugin Structure
 
-This is a **distributable Claude Code skill**. The `impression/` directory IS the skill package that gets installed to `.claude/skills/impression/`.
+This is a **Claude Code Plugin** following Anthropic's official plugin architecture.
+
+```
+impression/
+├── .claude-plugin/
+│   └── plugin.json          # Plugin manifest (required)
+├── skills/
+│   └── impression/
+│       └── SKILL.md         # Skill instructions
+├── scripts/                  # Core functionality
+├── references/              # Pre-extracted design systems
+├── tests/                   # Test suite
+├── assets/                  # Templates and examples
+├── CLAUDE.md                # This file
+├── README.md                # User documentation
+├── SKILL.md                 # Root skill (legacy compatibility)
+├── CHANGELOG.md             # Version history
+├── marketplace.json         # Marketplace metadata
+└── types.d.ts               # TypeScript definitions
+```
 
 ### Installation
 
 ```bash
-# From GitHub (recommended)
-git clone https://github.com/jamesrosing/impression ~/.claude/skills/impression
+# Claude Code CLI (recommended)
+claude plugin install github:jamesrosing/impression
 
-# Manual - personal skills
-cp -r impression ~/.claude/skills/
+# Manual - plugins directory
+git clone https://github.com/jamesrosing/impression ~/.claude/plugins/impression
 
-# Manual - project-specific
-cp -r impression <project>/.claude/skills/
+# Project-specific
+cp -r impression <project>/.claude/plugins/
 
 # Development - symlink for live editing
-ln -s /path/to/impression ~/.claude/skills/impression
-```
-
-### Current Installation
-```
-~/.claude/skills/impression -> /mnt/d/projects/skillsMP/impression
+ln -s /path/to/impression ~/.claude/plugins/impression
 ```
 
 ## Project Overview
@@ -209,7 +223,9 @@ const result = await browser_run_code({
 
 ## File Purposes
 
-- `SKILL.md` - Instructions Claude receives when skill is invoked (edit for behavior changes)
+- `.claude-plugin/plugin.json` - Plugin manifest (required by Anthropic standards)
+- `skills/impression/SKILL.md` - Skill instructions for Claude Code
+- `SKILL.md` - Root skill file (legacy compatibility)
 - `README.md` - User-facing documentation
 - `CLAUDE.md` - This file — project context for Claude Code
 - `CHANGELOG.md` - Version history and release notes
@@ -225,6 +241,23 @@ const result = await browser_run_code({
 - `assets/style-guide-schema.json` - JSON Schema for validation
 - `assets/design-system-starter.json` - Starter template
 - `assets/examples/` - Generated examples (component-library, storybook, style-guide)
+
+## Trigger Keywords
+
+Claude automatically invokes this skill when users mention:
+
+- Design extraction: "extract design", "scrape styles", "get design system", "grab CSS"
+- Site analysis: "what fonts/colors does [site] use"
+- Comparison: "compare my styles to", "match [brand] design", "design system diff"
+- Token generation: "generate tailwind config", "create CSS variables", "shadcn theme"
+- Format conversion: "W3C tokens", "figma variables", "blend designs", "migrate tokens"
+
+## Security Notes
+
+- All operations are local; no external data transmission
+- Scripts only access explicitly specified paths
+- Use `--dry-run` to preview changes before execution
+- Generated configs should be reviewed before committing
 
 ## Development Notes
 
