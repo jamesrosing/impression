@@ -1,0 +1,19 @@
+# Local Claude Code settings (not part of skill package)
+.claude/
+
+# Node.js
+node_modules/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Test output
+*.log
+coverage/
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
