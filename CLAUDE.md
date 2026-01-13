@@ -29,9 +29,22 @@ ln -s /path/to/impression ~/.claude/skills/impression
 
 ## Project Overview
 
-**Impression** is a Claude Code skill/plugin that extracts design systems from live websites using Playwright browser automation. It outputs structured JSON, and can generate Tailwind configs, CSS variables, shadcn/ui themes, W3C Design Tokens, Figma Variables, or Style Dictionary format. It also compares existing projects against extracted reference designs and generates implementation plans.
+**Impression** is a Claude Code skill/plugin that extracts design systems from live websites using Playwright browser automation. It outputs structured JSON, and can generate Tailwind configs, CSS variables, shadcn/ui themes, W3C Design Tokens, Figma Variables, React/Vue/Svelte components, Storybook stories, and style guide documentation. It also compares existing projects against extracted reference designs and generates implementation plans.
 
 **No dependencies** - vanilla Node.js scripts, no package.json, no build step.
+
+## Unified CLI
+
+```bash
+# Use the unified CLI for all commands
+node bin/impression.js <command> [options]
+
+# Examples
+node bin/impression.js compare ./project references/linear.json
+node bin/impression.js generate tailwind design.json
+node bin/impression.js version init --design=design.json
+node bin/impression.js help
+```
 
 ## Commands
 
@@ -199,10 +212,19 @@ const result = await browser_run_code({
 - `SKILL.md` - Instructions Claude receives when skill is invoked (edit for behavior changes)
 - `README.md` - User-facing documentation
 - `CLAUDE.md` - This file — project context for Claude Code
+- `CHANGELOG.md` - Version history and release notes
 - `marketplace.json` - Plugin metadata for Claude Code marketplace
 - `types.d.ts` - TypeScript definitions for all types
+- `bin/impression.js` - Unified CLI entry point
+- `scripts/lib/` - Shared utilities (color-utils, contrast-utils, file-utils)
+- `scripts/core/` - Core extraction and comparison scripts
+- `scripts/generators/` - Output format generators
+- `scripts/tools/` - Utility scripts (blend, migrate, naming)
+- `scripts/ci/` - CI/CD and automation scripts
+- `tests/` - Test suite with test-runner
 - `assets/style-guide-schema.json` - JSON Schema for validation
 - `assets/design-system-starter.json` - Starter template
+- `assets/examples/` - Generated examples (component-library, storybook, style-guide)
 
 ## Development Notes
 

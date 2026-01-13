@@ -344,40 +344,60 @@ Skip live extraction for these popular designs:
 impression/
 ├── SKILL.md                    # Claude skill instructions
 ├── CLAUDE.md                   # Project context for Claude Code
+├── CHANGELOG.md                # Version history
 ├── marketplace.json            # Plugin metadata
 ├── README.md                   # This file
 ├── LICENSE                     # MIT
 ├── types.d.ts                  # TypeScript definitions
+├── bin/
+│   └── impression.js           # Unified CLI entry point
 ├── scripts/
-│   ├── extract-design-system.js      # Browser injection script
-│   ├── compare-design-systems.js     # CIE ΔE 2000 + WCAG + focus comparison
-│   ├── implement-design-changes.js   # Plan generator with config modification
-│   ├── generate-tailwind-config.js   # JSON → Tailwind
-│   ├── generate-css-variables.js     # JSON → CSS vars
-│   ├── generate-figma-tokens.js      # JSON → Figma Variables
-│   ├── generate-shadcn-theme.js      # JSON → shadcn/ui
-│   ├── generate-w3c-tokens.js        # JSON → W3C/Style Dictionary
-│   ├── generate-component-library.js # JSON → React/Vue/Svelte components
-│   ├── generate-style-guide.js       # JSON → HTML/Markdown docs
-│   ├── generate-storybook.js         # JSON → Storybook CSF3 stories
-│   ├── blend-design-systems.js       # Merge multiple systems
-│   ├── migrate-tokens.js             # Convert between formats
-│   ├── capture-screenshots.js        # Before/after screenshots
-│   ├── visual-regression.js          # Pixel-diff comparison
-│   ├── watch-design-system.js        # Monitor design changes
-│   ├── pr-automation.js              # Generate PR descriptions
-│   ├── design-versioning.js          # Version tracking and history
-│   ├── semantic-naming.js            # Intelligent semantic naming
-│   └── ci-compare.js                 # CI/CD integration
+│   ├── lib/                    # Shared utilities
+│   │   ├── color-utils.js      # Color conversion & comparison
+│   │   ├── contrast-utils.js   # WCAG contrast & accessibility
+│   │   ├── file-utils.js       # File operations & project detection
+│   │   └── index.js            # Barrel export
+│   ├── core/                   # Core functionality
+│   │   ├── extract-design-system.js
+│   │   ├── compare-design-systems.js
+│   │   └── implement-design-changes.js
+│   ├── generators/             # Output format generators
+│   │   ├── generate-tailwind-config.js
+│   │   ├── generate-css-variables.js
+│   │   ├── generate-shadcn-theme.js
+│   │   ├── generate-w3c-tokens.js
+│   │   ├── generate-figma-tokens.js
+│   │   ├── generate-component-library.js
+│   │   ├── generate-style-guide.js
+│   │   └── generate-storybook.js
+│   ├── tools/                  # Utility scripts
+│   │   ├── blend-design-systems.js
+│   │   ├── migrate-tokens.js
+│   │   ├── semantic-naming.js
+│   │   └── capture-screenshots.js
+│   ├── ci/                     # CI/CD & automation
+│   │   ├── ci-compare.js
+│   │   ├── pr-automation.js
+│   │   ├── visual-regression.js
+│   │   ├── watch-design-system.js
+│   │   └── design-versioning.js
+│   └── *.js                    # Backward-compatible wrappers
+├── tests/                      # Test suite
+│   ├── test-runner.js
+│   ├── color-utils.test.js
+│   └── contrast-utils.test.js
 ├── references/                 # Pre-extracted design systems
 │   ├── duchateau.json
 │   ├── linear.json
 │   ├── vercel.json
 │   └── sorrel.json
 └── assets/
-    ├── style-guide-schema.json       # JSON Schema for validation
-    ├── design-system-starter.json    # Starter template
-    └── examples/               # Example generated configs
+    ├── style-guide-schema.json
+    ├── design-system-starter.json
+    └── examples/
+        ├── component-library/  # React component examples
+        ├── storybook/          # Storybook story examples
+        └── style-guide/        # Style guide examples
 ```
 
 ## TypeScript Support
