@@ -1,4 +1,7 @@
 #!/usr/bin/env node
-// Backward compatibility wrapper - actual script in tools/
-module.exports = require('./tools/blend-design-systems.js');
-if (require.main === module) require('./tools/blend-design-systems.js');
+const path = require('path');
+const actualScript = path.join(__dirname, 'tools', path.basename(__filename));
+module.exports = require(actualScript);
+if (require.main === module) {
+  require('child_process').fork(actualScript, process.argv.slice(2), { stdio: 'inherit' });
+}

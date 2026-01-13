@@ -1,4 +1,7 @@
 #!/usr/bin/env node
-// Backward compatibility wrapper - actual script in generators/
-module.exports = require('./generators/generate-tailwind-config.js');
-if (require.main === module) require('./generators/generate-tailwind-config.js');
+const path = require('path');
+const actualScript = path.join(__dirname, 'generators', path.basename(__filename));
+module.exports = require(actualScript);
+if (require.main === module) {
+  require('child_process').fork(actualScript, process.argv.slice(2), { stdio: 'inherit' });
+}

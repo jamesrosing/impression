@@ -1,4 +1,7 @@
 #!/usr/bin/env node
-// Backward compatibility wrapper - actual script in ci/
-module.exports = require('./ci/pr-automation.js');
-if (require.main === module) require('./ci/pr-automation.js');
+const path = require('path');
+const actualScript = path.join(__dirname, 'ci', path.basename(__filename));
+module.exports = require(actualScript);
+if (require.main === module) {
+  require('child_process').fork(actualScript, process.argv.slice(2), { stdio: 'inherit' });
+}

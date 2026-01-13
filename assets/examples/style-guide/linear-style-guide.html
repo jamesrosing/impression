@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>https://linear.app/ - Style Guide</title>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --fg: #111827;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+      --accent: #3b82f6;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #111827;
+        --fg: #f9fafb;
+        --muted: #9ca3af;
+        --border: #374151;
+      }
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      line-height: 1.6;
+      padding: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
+    h2 { font-size: 1.75rem; margin: 2.5rem 0 1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; }
+    h3 { font-size: 1.25rem; margin: 1.5rem 0 0.75rem; color: var(--muted); }
+    p { margin-bottom: 1rem; color: var(--muted); }
+    .meta { color: var(--muted); font-size: 0.875rem; margin-bottom: 2rem; }
+    .grid { display: grid; gap: 1rem; }
+    .grid-2 { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+    .grid-3 { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+    .grid-4 { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); }
+    .card {
+      border: 1px solid var(--border);
+      border-radius: 0.5rem;
+      overflow: hidden;
+    }
+    .swatch {
+      height: 80px;
+      display: flex;
+      align-items: flex-end;
+      padding: 0.5rem;
+      font-size: 0.75rem;
+      font-family: monospace;
+    }
+    .swatch-info {
+      padding: 0.75rem;
+      font-size: 0.875rem;
+    }
+    .swatch-name { font-weight: 600; }
+    .swatch-value { color: var(--muted); font-family: monospace; font-size: 0.75rem; }
+    .swatch-contrast { font-size: 0.7rem; margin-top: 0.25rem; }
+    .font-specimen {
+      padding: 1.5rem;
+      border: 1px solid var(--border);
+      border-radius: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    .font-name { font-size: 0.875rem; color: var(--muted); margin-bottom: 0.5rem; }
+    .font-preview { font-size: 2rem; margin-bottom: 0.5rem; }
+    .font-weights { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1rem; }
+    .font-weight { font-size: 1rem; }
+    .spacing-bar {
+      background: var(--accent);
+      height: 24px;
+      border-radius: 2px;
+      display: flex;
+      align-items: center;
+      padding-left: 0.5rem;
+      color: white;
+      font-size: 0.75rem;
+      font-family: monospace;
+    }
+    .spacing-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 0.5rem;
+    }
+    .spacing-label {
+      width: 60px;
+      font-family: monospace;
+      font-size: 0.875rem;
+      color: var(--muted);
+    }
+    .radius-preview {
+      width: 80px;
+      height: 80px;
+      background: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 0.75rem;
+      font-family: monospace;
+    }
+    .shadow-preview {
+      width: 100%;
+      height: 60px;
+      background: var(--bg);
+      border-radius: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+    .animation-preview {
+      padding: 1rem;
+      border: 1px solid var(--border);
+      border-radius: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .animation-name { font-weight: 600; margin-bottom: 0.25rem; }
+    .animation-value { font-family: monospace; font-size: 0.75rem; color: var(--muted); }
+    .animation-demo {
+      width: 40px;
+      height: 40px;
+      background: var(--accent);
+      border-radius: 0.25rem;
+      margin-top: 0.5rem;
+    }
+    .breakpoint-bar {
+      background: linear-gradient(90deg, var(--accent), transparent);
+      height: 8px;
+      border-radius: 4px;
+      margin-bottom: 0.25rem;
+    }
+    .code {
+      background: var(--border);
+      padding: 0.125rem 0.375rem;
+      border-radius: 0.25rem;
+      font-family: monospace;
+      font-size: 0.875rem;
+    }
+    table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+    th, td { padding: 0.75rem; text-align: left; border-bottom: 1px solid var(--border); }
+    th { font-weight: 600; background: var(--border); }
+    .pass { color: #10b981; }
+    .fail { color: #ef4444; }
+  </style>
+</head>
+<body>
+  <h1>https://linear.app/</h1>
+  <p class="meta">Generated from https://linear.app/ on January 12, 2026</p>
+
+  <h2>Colors</h2><h3>Semantic Colors</h3><div class="grid grid-3">
+        <div class="card">
+          <div class="swatch" style="background: #0f1011; color: #ffffff;">#0f1011</div>
+          <div class="swatch-info">
+            <div class="swatch-name">Background 1</div>
+            <div class="swatch-contrast">Contrast on white: 19.05:1</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="swatch" style="background: #ffffff; color: #000000;">#ffffff</div>
+          <div class="swatch-info">
+            <div class="swatch-name">Background 2</div>
+            <div class="swatch-contrast">Contrast on white: 1.00:1</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="swatch" style="background: #08090a; color: #ffffff;">#08090a</div>
+          <div class="swatch-info">
+            <div class="swatch-name">Background 3</div>
+            <div class="swatch-contrast">Contrast on white: 19.93:1</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="swatch" style="background: #28282c; color: #ffffff;">#28282c</div>
+          <div class="swatch-info">
+            <div class="swatch-name">Background 4</div>
+            <div class="swatch-contrast">Contrast on white: 14.68:1</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="swatch" style="background: #1c1c1f; color: #ffffff;">#1c1c1f</div>
+          <div class="swatch-info">
+            <div class="swatch-name">Background 5</div>
+            <div class="swatch-contrast">Contrast on white: 17.00:1</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="swatch" style="background: #18191a; color: #ffffff;">#18191a</div>
+          <div class="swatch-info">
+            <div class="swatch-name">Background 6</div>
+            <div class="swatch-contrast">Contrast on white: 17.61:1</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="swatch" style="background: #141516; color: #ffffff;">#141516</div>
+          <div class="swatch-info">
+            <div class="swatch-name">Background 7</div>
+            <div class="swatch-contrast">Contrast on white: 18.28:1</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="swatch" style="background: #f7f8f8; color: #000000;">#f7f8f8</div>
+          <div class="swatch-info">
+            <div class="swatch-name">Text 1</div>
+            <div class="swatch-contrast">Contrast on white: 1.06:1</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="swatch" style="background: #8a8f98; color: #000000;">#8a8f98</div>
+          <div class="swatch-info">
+            <div class="swatch-name">Text 2</div>
+            <div class="swatch-contrast">Contrast on white: 3.25:1</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="swatch" style="background: #d0d6e0; color: #000000;">#d0d6e0</div>
+          <div class="swatch-info">
+            <div class="swatch-name">Text 3</div>
+            <div class="swatch-contrast">Contrast on white: 1.46:1</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="swatch" style="background: #62666d; color: #ffffff;">#62666d</div>
+          <div class="swatch-info">
+            <div class="swatch-name">Text 4</div>
+            <div class="swatch-contrast">Contrast on white: 5.77:1</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="swatch" style="background: #ffffff; color: #000000;">#ffffff</div>
+          <div class="swatch-info">
+            <div class="swatch-name">Text 5</div>
+            <div class="swatch-contrast">Contrast on white: 1.00:1</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="swatch" style="background: #68cc58; color: #000000;">#68cc58</div>
+          <div class="swatch-info">
+            <div class="swatch-name">Text 6</div>
+            <div class="swatch-contrast">Contrast on white: 2.03:1</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="swatch" style="background: #5e6ad2; color: #ffffff;">#5e6ad2</div>
+          <div class="swatch-info">
+            <div class="swatch-name">Accent 1</div>
+            <div class="swatch-contrast">Contrast on white: 4.70:1</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="swatch" style="background: #68cc58; color: #000000;">#68cc58</div>
+          <div class="swatch-info">
+            <div class="swatch-name">Accent 2</div>
+            <div class="swatch-contrast">Contrast on white: 2.03:1</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="swatch" style="background: #28282c; color: #ffffff;">#28282c</div>
+          <div class="swatch-info">
+            <div class="swatch-name">Accent 3</div>
+            <div class="swatch-contrast">Contrast on white: 14.68:1</div>
+          </div>
+        </div></div><h3>Color Palette</h3><div class="grid grid-4">
+        <div class="card">
+          <div class="swatch" style="background: #f7f8f8; color: #000000;">#f7f8f8</div>
+          <div class="swatch-info">
+            <div class="swatch-value">Used 4965x</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="swatch" style="background: #8a8f98; color: #000000;">#8a8f98</div>
+          <div class="swatch-info">
+            <div class="swatch-value">Used 323x</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="swatch" style="background: #d0d6e0; color: #000000;">#d0d6e0</div>
+          <div class="swatch-info">
+            <div class="swatch-value">Used 88x</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="swatch" style="background: #62666d; color: #ffffff;">#62666d</div>
+          <div class="swatch-info">
+            <div class="swatch-value">Used 68x</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="swatch" style="background: #ffffff; color: #000000;">#ffffff</div>
+          <div class="swatch-info">
+            <div class="swatch-value">Used 52x</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="swatch" style="background: #0f1011; color: #ffffff;">#0f1011</div>
+          <div class="swatch-info">
+            <div class="swatch-value">Used 15x</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="swatch" style="background: #08090a; color: #ffffff;">#08090a</div>
+          <div class="swatch-info">
+            <div class="swatch-value">Used 11x</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="swatch" style="background: #68cc58; color: #000000;">#68cc58</div>
+          <div class="swatch-info">
+            <div class="swatch-value">Used 11x</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="swatch" style="background: #5e6ad2; color: #ffffff;">#5e6ad2</div>
+          <div class="swatch-info">
+            <div class="swatch-value">Used 3x</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="swatch" style="background: #28282c; color: #ffffff;">#28282c</div>
+          <div class="swatch-info">
+            <div class="swatch-value">Used 12x</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="swatch" style="background: #1c1c1f; color: #ffffff;">#1c1c1f</div>
+          <div class="swatch-info">
+            <div class="swatch-value">Used 12x</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="swatch" style="background: #3e3e44; color: #ffffff;">#3e3e44</div>
+          <div class="swatch-info">
+            <div class="swatch-value">Used 13x</div>
+          </div>
+        </div></div><h3>CSS Variables</h3><table><tr><th>Variable</th><th>Value</th><th>Preview</th></tr>
+        <tr>
+          <td><code class="code">----color-white</code></td>
+          <td><code class="code">#fff</code></td>
+          <td><div style="width: 24px; height: 24px; background: #fff; border-radius: 4px; border: 1px solid var(--border);"></div></td>
+        </tr>
+        <tr>
+          <td><code class="code">----color-black</code></td>
+          <td><code class="code">#000</code></td>
+          <td><div style="width: 24px; height: 24px; background: #000; border-radius: 4px; border: 1px solid var(--border);"></div></td>
+        </tr>
+        <tr>
+          <td><code class="code">----color-blue</code></td>
+          <td><code class="code">#4ea7fc</code></td>
+          <td><div style="width: 24px; height: 24px; background: #4ea7fc; border-radius: 4px; border: 1px solid var(--border);"></div></td>
+        </tr>
+        <tr>
+          <td><code class="code">----color-red</code></td>
+          <td><code class="code">#eb5757</code></td>
+          <td><div style="width: 24px; height: 24px; background: #eb5757; border-radius: 4px; border: 1px solid var(--border);"></div></td>
+        </tr>
+        <tr>
+          <td><code class="code">----color-green</code></td>
+          <td><code class="code">#4cb782</code></td>
+          <td><div style="width: 24px; height: 24px; background: #4cb782; border-radius: 4px; border: 1px solid var(--border);"></div></td>
+        </tr>
+        <tr>
+          <td><code class="code">----color-orange</code></td>
+          <td><code class="code">#fc7840</code></td>
+          <td><div style="width: 24px; height: 24px; background: #fc7840; border-radius: 4px; border: 1px solid var(--border);"></div></td>
+        </tr>
+        <tr>
+          <td><code class="code">----color-yellow</code></td>
+          <td><code class="code">#f2c94c</code></td>
+          <td><div style="width: 24px; height: 24px; background: #f2c94c; border-radius: 4px; border: 1px solid var(--border);"></div></td>
+        </tr>
+        <tr>
+          <td><code class="code">----color-indigo</code></td>
+          <td><code class="code">#5e6ad2</code></td>
+          <td><div style="width: 24px; height: 24px; background: #5e6ad2; border-radius: 4px; border: 1px solid var(--border);"></div></td>
+        </tr>
+        <tr>
+          <td><code class="code">----color-linear-plan</code></td>
+          <td><code class="code">#68cc58</code></td>
+          <td><div style="width: 24px; height: 24px; background: #68cc58; border-radius: 4px; border: 1px solid var(--border);"></div></td>
+        </tr>
+        <tr>
+          <td><code class="code">----color-linear-build</code></td>
+          <td><code class="code">#d4b144</code></td>
+          <td><div style="width: 24px; height: 24px; background: #d4b144; border-radius: 4px; border: 1px solid var(--border);"></div></td>
+        </tr>
+        <tr>
+          <td><code class="code">----color-linear-security</code></td>
+          <td><code class="code">#7a7fad</code></td>
+          <td><div style="width: 24px; height: 24px; background: #7a7fad; border-radius: 4px; border: 1px solid var(--border);"></div></td>
+        </tr>
+        <tr>
+          <td><code class="code">----font-regular</code></td>
+          <td><code class="code">"Inter Variable","SF Pro Display",-apple-system,BlinkMacSystemFont,"Segoe UI","Roboto","Oxygen","Ubuntu","Cantarell","Open Sans","Helvetica Neue",sans-serif</code></td>
+          <td><div style="width: 24px; height: 24px; background: "Inter Variable","SF Pro Display",-apple-system,BlinkMacSystemFont,"Segoe UI","Roboto","Oxygen","Ubuntu","Cantarell","Open Sans","Helvetica Neue",sans-serif; border-radius: 4px; border: 1px solid var(--border);"></div></td>
+        </tr>
+        <tr>
+          <td><code class="code">----font-serif-display</code></td>
+          <td><code class="code">"Tiempos Headline",ui-serif,Georgia,Cambria,"Times New Roman",Times,serif</code></td>
+          <td><div style="width: 24px; height: 24px; background: "Tiempos Headline",ui-serif,Georgia,Cambria,"Times New Roman",Times,serif; border-radius: 4px; border: 1px solid var(--border);"></div></td>
+        </tr>
+        <tr>
+          <td><code class="code">----font-monospace</code></td>
+          <td><code class="code">"Berkeley Mono",ui-monospace,"SF Mono","Menlo",monospace</code></td>
+          <td><div style="width: 24px; height: 24px; background: "Berkeley Mono",ui-monospace,"SF Mono","Menlo",monospace; border-radius: 4px; border: 1px solid var(--border);"></div></td>
+        </tr>
+        <tr>
+          <td><code class="code">----font-weight-light</code></td>
+          <td><code class="code">300</code></td>
+          <td><div style="width: 24px; height: 24px; background: 300; border-radius: 4px; border: 1px solid var(--border);"></div></td>
+        </tr>
+        <tr>
+          <td><code class="code">----font-weight-normal</code></td>
+          <td><code class="code">400</code></td>
+          <td><div style="width: 24px; height: 24px; background: 400; border-radius: 4px; border: 1px solid var(--border);"></div></td>
+        </tr>
+        <tr>
+          <td><code class="code">----font-weight-medium</code></td>
+          <td><code class="code">510</code></td>
+          <td><div style="width: 24px; height: 24px; background: 510; border-radius: 4px; border: 1px solid var(--border);"></div></td>
+        </tr>
+        <tr>
+          <td><code class="code">----font-weight-semibold</code></td>
+          <td><code class="code">590</code></td>
+          <td><div style="width: 24px; height: 24px; background: 590; border-radius: 4px; border: 1px solid var(--border);"></div></td>
+        </tr>
+        <tr>
+          <td><code class="code">----font-weight-bold</code></td>
+          <td><code class="code">680</code></td>
+          <td><div style="width: 24px; height: 24px; background: 680; border-radius: 4px; border: 1px solid var(--border);"></div></td>
+        </tr>
+        <tr>
+          <td><code class="code">----radius-4</code></td>
+          <td><code class="code">4px</code></td>
+          <td><div style="width: 24px; height: 24px; background: 4px; border-radius: 4px; border: 1px solid var(--border);"></div></td>
+        </tr></table><h2>Typography</h2><h3>Font Families</h3>
+        <div class="font-specimen">
+          <div class="font-name">Inter Variable</div>
+          <div class="font-preview" style="font-family: 'Inter Variable', system-ui;">
+            The quick brown fox jumps over the lazy dog
+          </div>
+          <div class="font-weights">
+            <span class="font-weight" style="font-family: 'Inter Variable', system-ui; font-weight: 400;">400</span><span class="font-weight" style="font-family: 'Inter Variable', system-ui; font-weight: 510;">510</span><span class="font-weight" style="font-family: 'Inter Variable', system-ui; font-weight: 538;">538</span><span class="font-weight" style="font-family: 'Inter Variable', system-ui; font-weight: 590;">590</span><span class="font-weight" style="font-family: 'Inter Variable', system-ui; font-weight: 680;">680</span>
+          </div>
+        </div>
+        <div class="font-specimen">
+          <div class="font-name">Berkeley Mono</div>
+          <div class="font-preview" style="font-family: 'Berkeley Mono', system-ui;">
+            The quick brown fox jumps over the lazy dog
+          </div>
+          <div class="font-weights">
+            <span class="font-weight" style="font-family: 'Berkeley Mono', system-ui; font-weight: 400;">400</span><span class="font-weight" style="font-family: 'Berkeley Mono', system-ui; font-weight: 510;">510</span><span class="font-weight" style="font-family: 'Berkeley Mono', system-ui; font-weight: 538;">538</span><span class="font-weight" style="font-family: 'Berkeley Mono', system-ui; font-weight: 590;">590</span><span class="font-weight" style="font-family: 'Berkeley Mono', system-ui; font-weight: 680;">680</span>
+          </div>
+        </div><h3>Line Heights</h3><div class="grid grid-4"><div class="code">[object Object]</div><div class="code">[object Object]</div><div class="code">[object Object]</div><div class="code">[object Object]</div><div class="code">[object Object]</div></div><h2>Spacing</h2><h3>Spacing Scale</h3>
+      <div class="spacing-row">
+        <span class="spacing-label">4px</span>
+        <div class="spacing-bar" style="width: 16px;">4px</div>
+      </div>
+      <div class="spacing-row">
+        <span class="spacing-label">6px</span>
+        <div class="spacing-bar" style="width: 24px;">6px</div>
+      </div>
+      <div class="spacing-row">
+        <span class="spacing-label">8px</span>
+        <div class="spacing-bar" style="width: 32px;">8px</div>
+      </div>
+      <div class="spacing-row">
+        <span class="spacing-label">10px</span>
+        <div class="spacing-bar" style="width: 40px;">10px</div>
+      </div>
+      <div class="spacing-row">
+        <span class="spacing-label">12px</span>
+        <div class="spacing-bar" style="width: 48px;">12px</div>
+      </div>
+      <div class="spacing-row">
+        <span class="spacing-label">16px</span>
+        <div class="spacing-bar" style="width: 64px;">16px</div>
+      </div>
+      <div class="spacing-row">
+        <span class="spacing-label">20px</span>
+        <div class="spacing-bar" style="width: 80px;">20px</div>
+      </div>
+      <div class="spacing-row">
+        <span class="spacing-label">24px</span>
+        <div class="spacing-bar" style="width: 96px;">24px</div>
+      </div>
+      <div class="spacing-row">
+        <span class="spacing-label">32px</span>
+        <div class="spacing-bar" style="width: 128px;">32px</div>
+      </div>
+      <div class="spacing-row">
+        <span class="spacing-label">40px</span>
+        <div class="spacing-bar" style="width: 160px;">40px</div>
+      </div>
+      <div class="spacing-row">
+        <span class="spacing-label">48px</span>
+        <div class="spacing-bar" style="width: 192px;">48px</div>
+      </div>
+      <div class="spacing-row">
+        <span class="spacing-label">56px</span>
+        <div class="spacing-bar" style="width: 224px;">56px</div>
+      </div>
+      <div class="spacing-row">
+        <span class="spacing-label">64px</span>
+        <div class="spacing-bar" style="width: 256px;">64px</div>
+      </div>
+      <div class="spacing-row">
+        <span class="spacing-label">72px</span>
+        <div class="spacing-bar" style="width: 288px;">72px</div>
+      </div>
+      <div class="spacing-row">
+        <span class="spacing-label">96px</span>
+        <div class="spacing-bar" style="width: 384px;">96px</div>
+      </div>
+      <div class="spacing-row">
+        <span class="spacing-label">160px</span>
+        <div class="spacing-bar" style="width: 400px;">160px</div>
+      </div><h2>Border Radius</h2><div class="grid grid-4">
+      <div class="card" style="padding: 1rem; text-align: center;">
+        <div class="radius-preview" style="border-radius: 4px; margin: 0 auto;">4px</div>
+      </div>
+      <div class="card" style="padding: 1rem; text-align: center;">
+        <div class="radius-preview" style="border-radius: 6px; margin: 0 auto;">6px</div>
+      </div>
+      <div class="card" style="padding: 1rem; text-align: center;">
+        <div class="radius-preview" style="border-radius: 8px; margin: 0 auto;">8px</div>
+      </div>
+      <div class="card" style="padding: 1rem; text-align: center;">
+        <div class="radius-preview" style="border-radius: 10px; margin: 0 auto;">10px</div>
+      </div>
+      <div class="card" style="padding: 1rem; text-align: center;">
+        <div class="radius-preview" style="border-radius: 16px; margin: 0 auto;">16px</div>
+      </div>
+      <div class="card" style="padding: 1rem; text-align: center;">
+        <div class="radius-preview" style="border-radius: 9999px; margin: 0 auto;">9999px</div>
+      </div>
+      <div class="card" style="padding: 1rem; text-align: center;">
+        <div class="radius-preview" style="border-radius: 50%; margin: 0 auto;">50%</div>
+      </div></div><h2>Animations</h2><h3>Durations</h3><div class="grid grid-4"><div class="code">0.1s</div><div class="code">0.16s</div><div class="code">0.2s</div><div class="code">0.24s</div><div class="code">0.25s</div><div class="code">0.32s</div></div><h3>Easing Functions</h3>
+        <div class="animation-preview">
+          <div class="animation-name">cubic-bezier(0.25, 0.46, 0.45, 0.94)</div>
+          <div class="animation-value">cubic-bezier(0.25, 0.46, 0.45, 0.94)</div>
+          <div class="animation-demo" style="animation: slideIn 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite alternate;"></div>
+        </div>
+        <div class="animation-preview">
+          <div class="animation-name">cubic-bezier(0.215, 0.61, 0.355, 1)</div>
+          <div class="animation-value">cubic-bezier(0.215, 0.61, 0.355, 1)</div>
+          <div class="animation-demo" style="animation: slideIn 1s cubic-bezier(0.215, 0.61, 0.355, 1) infinite alternate;"></div>
+        </div>
+        <div class="animation-preview">
+          <div class="animation-name">cubic-bezier(0.165, 0.84, 0.44, 1)</div>
+          <div class="animation-value">cubic-bezier(0.165, 0.84, 0.44, 1)</div>
+          <div class="animation-demo" style="animation: slideIn 1s cubic-bezier(0.165, 0.84, 0.44, 1) infinite alternate;"></div>
+        </div>
+        <div class="animation-preview">
+          <div class="animation-name">ease-out</div>
+          <div class="animation-value">ease-out</div>
+          <div class="animation-demo" style="animation: slideIn 1s ease-out infinite alternate;"></div>
+        </div>
+      <style>
+        @keyframes slideIn {
+          from { transform: translateX(0); }
+          to { transform: translateX(100px); }
+        }
+      </style>
+
+  <footer style="margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.875rem;">
+    Generated by <a href="https://github.com/jamesrosing/impression" style="color: var(--accent);">Impression</a>
+  </footer>
+</body>
+</html>

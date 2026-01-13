@@ -1,4 +1,7 @@
 #!/usr/bin/env node
-// Backward compatibility wrapper - actual script in core/
-module.exports = require('./core/extract-design-system.js');
-if (require.main === module) require('./core/extract-design-system.js');
+const path = require('path');
+const actualScript = path.join(__dirname, 'core', path.basename(__filename));
+module.exports = require(actualScript);
+if (require.main === module) {
+  require('child_process').fork(actualScript, process.argv.slice(2), { stdio: 'inherit' });
+}
