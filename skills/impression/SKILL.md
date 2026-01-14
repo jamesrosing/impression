@@ -2,12 +2,6 @@
 name: impression
 description: |
   Extract design systems from live websites, compare projects against references, generate implementation plans. Triggers: "extract design", "scrape styles", "get design system", "grab CSS from URL", "what fonts/colors does [site] use", "compare my styles to", "match [brand] design", "design system diff", "generate tailwind config", "create CSS variables", "shadcn theme", "W3C tokens", "figma variables", "blend designs", "migrate tokens". Pre-extracted: Linear, Vercel, DuChateau, Sorrel. Outputs JSON, Tailwind, CSS vars, shadcn, W3C tokens, Figma, Style Dictionary. Uses CIE ΔE 2000 color matching + WCAG audits.
-license: MIT
-compatibility: Node.js 18+, Playwright MCP (for live extraction)
-metadata:
-  author: jamesrosing
-  version: "3.1.0"
-  repository: https://github.com/jamesrosing/impression
 ---
 
 # Impression

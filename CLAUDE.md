@@ -19,7 +19,6 @@ impression/
 ├── assets/                  # Templates and examples
 ├── CLAUDE.md                # This file
 ├── README.md                # User documentation
-├── SKILL.md                 # Root skill (legacy compatibility)
 ├── CHANGELOG.md             # Version history
 ├── marketplace.json         # Marketplace metadata
 └── types.d.ts               # TypeScript definitions
@@ -225,7 +224,6 @@ const result = await browser_run_code({
 
 - `.claude-plugin/plugin.json` - Plugin manifest (required by Anthropic standards)
 - `skills/impression/SKILL.md` - Skill instructions for Claude Code
-- `SKILL.md` - Root skill file (legacy compatibility)
 - `README.md` - User-facing documentation
 - `CLAUDE.md` - This file — project context for Claude Code
 - `CHANGELOG.md` - Version history and release notes
