@@ -1,0 +1,208 @@
+{
+  "meta": {
+    "url": "https://www.youtube.com/",
+    "title": "YouTube",
+    "extractedAt": "2026-01-14T17:25:47.046Z",
+    "extractorVersion": "3.0.0",
+    "viewport": { "width": 1905, "height": 6105 },
+    "designCharacter": "Light-mode-first. Roboto font family. Video platform. #ff0000 red accent. Clean, functional UI."
+  },
+  "colors": {
+    "cssVariables": {
+      "--ytd-searchbox-border-color": "hsla(0,0%,53.3%,0.2)",
+      "--ytd-searchbox-background": "hsl(0,0%,100%)",
+      "--ytd-searchbox-text-color": "hsl(0,0%,6.7%)",
+      "--yt-spec-base-background": "#ffffff",
+      "--yt-spec-text-primary": "#0f0f0f",
+      "--yt-spec-text-secondary": "#606060",
+      "--yt-spec-icon-inactive": "#909090",
+      "--yt-spec-brand-icon-active": "#ff0000",
+      "--yt-spec-call-to-action": "#065fd4",
+      "--yt-spec-badge-chip-background": "#f2f2f2"
+    },
+    "palette": [
+      { "value": "#000000", "count": 15125, "role": "icons" },
+      { "value": "#0f0f0f", "count": 2862, "role": "text-primary" },
+      { "value": "#eeeeee", "count": 1565, "role": "border-light" },
+      { "value": "#606060", "count": 731, "role": "text-secondary" },
+      { "value": "#ffffff", "count": 684, "role": "background-primary" },
+      { "value": "#0000ee", "count": 450, "role": "link" },
+      { "value": "#065fd4", "count": 89, "role": "call-to-action" },
+      { "value": "#ff0000", "count": 68, "role": "brand-accent" },
+      { "value": "#e3e3e3", "count": 49, "role": "background-secondary" },
+      { "value": "#212121", "count": 29, "role": "dark-text" },
+      { "value": "#aaaaaa", "count": 9, "role": "muted-text" },
+      { "value": "#616161", "count": 6, "role": "icon-inactive" }
+    ],
+    "semantic": {
+      "primary": "#ff0000",
+      "secondary": "#0f0f0f",
+      "accent": "#065fd4",
+      "background": {
+        "primary": "#ffffff",
+        "secondary": "#f9f9f9",
+        "tertiary": "#eeeeee"
+      },
+      "foreground": {
+        "primary": "#0f0f0f",
+        "secondary": "#606060",
+        "muted": "#909090"
+      },
+      "border": {
+        "default": "#e5e5e5",
+        "muted": "#d3d3d3"
+      },
+      "success": "#2ba640",
+      "warning": "#ff9000",
+      "error": "#ff0000",
+      "info": "#065fd4"
+    },
+    "colorScale": {
+      "gray": {
+        "50": "#f9f9f9",
+        "100": "#f2f2f2",
+        "200": "#eeeeee",
+        "300": "#e5e5e5",
+        "400": "#cccccc",
+        "500": "#909090",
+        "600": "#606060",
+        "700": "#3d3d3d",
+        "800": "#212121",
+        "900": "#0f0f0f"
+      },
+      "red": {
+        "50": "#fff0f0",
+        "100": "#ffcdd2",
+        "500": "#ff0000",
+        "700": "#c00000",
+        "900": "#8b0000"
+      },
+      "blue": {
+        "50": "#e8f0fe",
+        "100": "#d2e3fc",
+        "500": "#065fd4",
+        "700": "#1a0dab",
+        "900": "#0d47a1"
+      }
+    }
+  },
+  "typography": {
+    "fontFamilies": [
+      { "family": "Roboto", "role": "primary", "category": "sans-serif" },
+      { "family": "YouTube Noto", "role": "international", "category": "sans-serif" },
+      { "family": "YouTube Sans", "role": "branding", "category": "sans-serif" },
+      { "family": "Arial", "role": "fallback", "category": "sans-serif" }
+    ],
+    "fontStack": {
+      "sans": "Roboto, Arial, sans-serif",
+      "display": "YouTube Sans, Roboto, Arial, sans-serif",
+      "international": "YouTube Noto, Noto Sans, Roboto, Arial, sans-serif"
+    },
+    "scale": ["10px", "11px", "12px", "13px", "14px", "15px", "16px", "18px", "20px", "24px", "36px"],
+    "fontWeights": {
+      "regular": "400",
+      "medium": "500",
+      "semibold": "600",
+      "bold": "700"
+    },
+    "lineHeights": [
+      { "value": "14.3px", "count": 583 },
+      { "value": "20px", "count": 341 },
+      { "value": "36px", "count": 259 },
+      { "value": "24px", "count": 219 },
+      { "value": "18px", "count": 154 },
+      { "value": "22px", "count": 127 }
+    ],
+    "letterSpacing": [
+      { "value": "normal", "count": 1000 },
+      { "value": "1px", "count": 3 }
+    ]
+  },
+  "spacing": {
+    "scale": ["4px", "8px", "12px", "16px", "24px", "32px", "48px", "64px"],
+    "gaps": [
+      { "value": "12px", "count": 4 },
+      { "value": "8px", "count": 2 },
+      { "value": "16px", "count": 2 }
+    ],
+    "paddings": [
+      { "value": "12px", "count": 181 },
+      { "value": "8px", "count": 139 },
+      { "value": "4px", "count": 112 },
+      { "value": "16px", "count": 56 },
+      { "value": "24px", "count": 43 },
+      { "value": "6px", "count": 33 }
+    ]
+  },
+  "animations": {
+    "keyframes": {
+      "spinner": "rotation animation",
+      "progress": "video progress indicator",
+      "fade": "opacity transitions"
+    },
+    "durations": {
+      "fast": "150ms",
+      "normal": "200ms",
+      "slow": "300ms",
+      "video": "400ms"
+    },
+    "easings": [
+      { "name": "ease-out", "value": "cubic-bezier(0, 0, 0.2, 1)" },
+      { "name": "ease-in-out", "value": "cubic-bezier(0.4, 0, 0.2, 1)" },
+      { "name": "bounce", "value": "cubic-bezier(0.68, -0.55, 0.265, 1.55)" }
+    ]
+  },
+  "shadows": {
+    "sm": "rgba(0, 0, 0, 0.16) 0px 2px 5px 0px, rgba(0, 0, 0, 0.2) 0px 3px 6px 0px",
+    "md": "rgba(0, 0, 0, 0.14) 0px 2px 2px 0px, rgba(0, 0, 0, 0.12) 0px 1px 5px 0px, rgba(0, 0, 0, 0.2) 0px 3px 1px -2px",
+    "inset": "rgb(238, 238, 238) 0px 1px 2px 0px inset",
+    "card": "rgba(0, 0, 0, 0.2) 0px 2px 4px 0px"
+  },
+  "borderRadius": {
+    "sm": "2px",
+    "default": "4px",
+    "md": "8px",
+    "lg": "10px",
+    "xl": "12px",
+    "2xl": "18px",
+    "3xl": "28px",
+    "full": "50%"
+  },
+  "components": {
+    "buttons": {
+      "subscribe": {
+        "backgroundColor": "#cc0000",
+        "textColor": "#ffffff",
+        "borderRadius": "18px",
+        "padding": "10px 16px"
+      },
+      "primary": {
+        "backgroundColor": "#065fd4",
+        "textColor": "#ffffff",
+        "borderRadius": "18px"
+      },
+      "secondary": {
+        "backgroundColor": "transparent",
+        "textColor": "#065fd4",
+        "borderRadius": "18px",
+        "border": "1px solid #ccc"
+      }
+    },
+    "chips": {
+      "backgroundColor": "#f2f2f2",
+      "textColor": "#0f0f0f",
+      "borderRadius": "8px",
+      "padding": "8px 12px"
+    },
+    "thumbnails": {
+      "borderRadius": "12px",
+      "aspectRatio": "16/9"
+    }
+  },
+  "breakpoints": {
+    "mobile": "480px",
+    "tablet": "792px",
+    "desktop": "1016px",
+    "wide": "1328px"
+  }
+}

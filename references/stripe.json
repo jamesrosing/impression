@@ -1,0 +1,185 @@
+{
+  "meta": {
+    "url": "https://stripe.com/",
+    "title": "Stripe | Financial Infrastructure to Grow Your Revenue",
+    "extractedAt": "2026-01-14T07:47:51.508Z",
+    "extractorVersion": "3.0.0",
+    "viewport": { "width": 1905, "height": 2053 },
+    "designCharacter": "Light-mode-first. modern sans-serif. #635bff accent. custom easing curves."
+  },
+  "colors": {
+    "cssVariables": {
+      "--gutterWidth": "16px",
+      "--scrollbarWidth": "0px",
+      "--layoutWidth": "calc(var(--windowWidth) - var(--gutterWidth)*2)",
+      "--layoutWidthMax": "1080px",
+      "--viewportWidthSmall": "375",
+      "--viewportWidthMedium": "600",
+      "--viewportWidthLarge": "1112",
+      "--paddingTop": "160px",
+      "--paddingBottom": "160px",
+      "--columnPaddingNormal": "16px",
+      "--rowGapNormal": "8px",
+      "--rowGapMedium": "24px",
+      "--rowGapLarge": "32px",
+      "--rowGapXLarge": "64px",
+      "--rowGapXXLarge": "88px"
+    },
+    "palette": [
+      { "value": "#425466", "count": 7330, "role": "text-secondary" },
+      { "value": "#0a2540", "count": 4840, "role": "text-primary" },
+      { "value": "#635bff", "count": 3070, "role": "primary-accent" },
+      { "value": "#3f4b66", "count": 938, "role": "text-muted" },
+      { "value": "#000000", "count": 680, "role": "black" },
+      { "value": "#ffffff", "count": 645, "role": "background-primary" },
+      { "value": "#727f96", "count": 302, "role": "text-tertiary" },
+      { "value": "#adbdcc", "count": 266, "role": "border-light" },
+      { "value": "#2e3a55", "count": 264, "role": "dark-accent" },
+      { "value": "#f6f9fc", "count": 90, "role": "background-secondary" },
+      { "value": "#00d4ff", "count": 48, "role": "cyan-accent" },
+      { "value": "#15be53", "count": 25, "role": "success" },
+      { "value": "#9966ff", "count": 12, "role": "purple-accent" },
+      { "value": "#efa82e", "count": 4, "role": "warning" },
+      { "value": "#c54647", "count": 4, "role": "error" }
+    ],
+    "semantic": {
+      "primary": "#635bff",
+      "secondary": "#0a2540",
+      "accent": "#635bff",
+      "background": {
+        "primary": "#ffffff",
+        "secondary": "#f6f9fc",
+        "tertiary": "#f6f9fb"
+      },
+      "foreground": {
+        "primary": "#0a2540",
+        "secondary": "#425466",
+        "muted": "#727f96"
+      },
+      "border": {
+        "default": "#adbdcc",
+        "muted": "#c4ccd8"
+      },
+      "success": "#15be53",
+      "warning": "#efa82e",
+      "error": "#c54647",
+      "info": "#00d4ff"
+    },
+    "computed": {
+      "backgrounds": [
+        { "value": "#ffffff", "count": 163 },
+        { "value": "#f6f9fc", "count": 90 },
+        { "value": "#f6f9fb", "count": 33 },
+        { "value": "#635bff", "count": 23 },
+        { "value": "#424770", "count": 22 },
+        { "value": "#15be53", "count": 21 }
+      ],
+      "text": [
+        { "value": "#425466", "count": 3681 },
+        { "value": "#0a2540", "count": 2415 },
+        { "value": "#635bff", "count": 1552 },
+        { "value": "#3f4b66", "count": 470 },
+        { "value": "#000000", "count": 341 },
+        { "value": "#ffffff", "count": 238 }
+      ],
+      "borders": [
+        { "value": "#425466", "count": 3649 },
+        { "value": "#c4ccd8", "count": 66 },
+        { "value": "#cfd7df", "count": 6 },
+        { "value": "#e6ebf1", "count": 6 }
+      ],
+      "accents": [
+        { "value": "#635bff", "count": 7 },
+        { "value": "#0a2540", "count": 3 },
+        { "value": "#00d4ff", "count": 1 }
+      ]
+    }
+  },
+  "typography": {
+    "fontFamilies": [
+      { "family": "sohne-var", "role": "primary", "category": "sans-serif" },
+      { "family": "SourceCodePro", "role": "mono", "category": "monospace" }
+    ],
+    "scale": ["12px", "13px", "14px", "15px", "16px", "17px", "18px", "21px", "22px", "24px", "26px", "28px", "32px", "38px", "56px", "94px"],
+    "fontWeights": ["300", "400", "425", "500", "600", "620", "700"],
+    "lineHeights": [
+      { "value": "normal", "count": 5472 },
+      { "value": "20px", "count": 1213 },
+      { "value": "24px", "count": 853 },
+      { "value": "28px", "count": 112 }
+    ],
+    "letterSpacing": [
+      { "value": "0.2px", "count": 3095 },
+      { "value": "-0.1px", "count": 31 },
+      { "value": "0.3px", "count": 30 }
+    ]
+  },
+  "spacing": {
+    "scale": ["4px", "8px", "12px", "16px", "20px", "24px", "28px", "32px", "40px", "48px", "56px", "64px", "80px", "96px", "112px", "128px"],
+    "grid": "8px",
+    "gaps": [
+      { "value": "8px", "count": 59 },
+      { "value": "24px", "count": 48 },
+      { "value": "12px", "count": 28 },
+      { "value": "16px", "count": 21 },
+      { "value": "32px", "count": 20 }
+    ],
+    "paddings": [
+      { "value": "16px", "count": 300 },
+      { "value": "12px", "count": 145 },
+      { "value": "24px", "count": 91 },
+      { "value": "32px", "count": 71 }
+    ]
+  },
+  "animations": {
+    "keyframes": {
+      "phone-tap": "perspective(500px) rotateX animation",
+      "border-rest": "scale(1) to scale(1.05) pulse",
+      "phone-shimmer": "skewY(40deg) translateY animation",
+      "loadChatBubble": "opacity and translateY entrance",
+      "fadeIn": "opacity 0 to 1 with scale",
+      "pulse": "scale 1 to 2 pulse animation",
+      "blink": "opacity toggle for cursor blink"
+    },
+    "transitions": [
+      { "value": "opacity 0.15s cubic-bezier(0.215, 0.61, 0.355, 1)", "count": 359 },
+      { "value": "color 0.15s cubic-bezier(0.215, 0.61, 0.355, 1)", "count": 279 },
+      { "value": "transform 0.15s cubic-bezier(0.215, 0.61, 0.355, 1)", "count": 182 },
+      { "value": "transform 0.3s cubic-bezier(0.33, 1, 0.68, 1)", "count": 28 },
+      { "value": "transform 0.6s cubic-bezier(0.7, 0, 0, 1)", "count": 21 }
+    ],
+    "durations": ["0.15s", "0.3s", "0.36s", "0.4s", "0.5s", "0.6s"],
+    "easings": [
+      { "name": "stripe-ease", "value": "cubic-bezier(0.215, 0.61, 0.355, 1)" },
+      { "name": "stripe-ease-out", "value": "cubic-bezier(0.33, 1, 0.68, 1)" },
+      { "name": "stripe-ease-in-out", "value": "cubic-bezier(0.7, 0, 0, 1)" },
+      { "name": "material", "value": "cubic-bezier(0.4, 0, 0.2, 1)" }
+    ]
+  },
+  "shadows": [
+    { "value": "rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px", "name": "elevation-xl", "count": 21 },
+    { "value": "rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px", "name": "elevation-lg", "count": 8 },
+    { "value": "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px", "name": "elevation-md", "count": 8 },
+    { "value": "rgba(50, 50, 93, 0.07) 0px 0px 0px 1px, rgba(50, 50, 93, 0.12) 0px 2px 3px -1px, rgba(0, 0, 0, 0.12) 0px 1px 3px -1px", "name": "elevation-sm", "count": 3 },
+    { "value": "rgba(50, 50, 93, 0.25) 0px 2px 4px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", "name": "elevation-xs", "count": 2 }
+  ],
+  "borderRadius": [
+    { "value": "8px", "count": 206, "role": "default" },
+    { "value": "4px", "count": 133, "role": "small" },
+    { "value": "16.5px", "count": 25, "role": "medium" },
+    { "value": "9999px", "count": 18, "role": "pill" },
+    { "value": "14px", "count": 14, "role": "large" }
+  ],
+  "components": {
+    "buttons": [
+      { "variant": "primary", "backgroundColor": "#635bff", "textColor": "#ffffff", "borderRadius": "8px", "padding": "10px 20px" },
+      { "variant": "ghost", "backgroundColor": "transparent", "textColor": "#635bff", "borderRadius": "0px", "padding": "0px" },
+      { "variant": "secondary", "backgroundColor": "#0a2540", "textColor": "#ffffff", "borderRadius": "8px", "padding": "10px 20px" }
+    ]
+  },
+  "breakpoints": {
+    "small": "375px",
+    "medium": "600px",
+    "large": "1112px"
+  }
+}

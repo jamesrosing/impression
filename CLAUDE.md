@@ -194,6 +194,10 @@ const result = await browser_run_code({
 - `linear.json` - Dark-mode SaaS, Inter Variable, indigo accent
 - `vercel.json` - Developer platform, Geist font, blue accent
 - `sorrel.json` - Light-mode cooking app, Söhne + Novarese, cream background
+- `stripe.json` - Developer payments, Söhne font, #635bff purple accent, custom easings
+- `notion.json` - Productivity workspace, NotionInter font, comprehensive color scales, #0075de accent
+- `tailwindui.json` - Component library, InterVariable font, utility-first CSS framework tokens
+- `youtube.json` - Video platform, Roboto font, #ff0000 red accent, chip/thumbnail components
 
 ## Token Format Support
 

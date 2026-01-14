@@ -175,6 +175,10 @@ Exit codes: 0 = pass, 1 = critical issues, 2 = warnings
 | Linear | `references/linear.json` | Dark-mode SaaS, Inter Variable, indigo accent |
 | Vercel | `references/vercel.json` | Developer platform, Geist font, blue accent |
 | Sorrel | `references/sorrel.json` | Light-mode cooking app, Söhne + Novarese, cream |
+| Stripe | `references/stripe.json` | Developer payments, Söhne font, #635bff purple |
+| Notion | `references/notion.json` | Productivity workspace, NotionInter, comprehensive scales |
+| Tailwind UI | `references/tailwindui.json` | Component library, InterVariable, utility-first |
+| YouTube | `references/youtube.json` | Video platform, Roboto font, #ff0000 red accent |
 
 ## Workflow 8: Generate Component Library
 
